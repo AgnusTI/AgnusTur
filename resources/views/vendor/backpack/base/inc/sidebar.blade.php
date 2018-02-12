@@ -1,24 +1,35 @@
 @if (Auth::check())
-    <!-- Left side column. contains the sidebar -->
     <aside class="main-sidebar">
-      <!-- sidebar: style can be found in sidebar.less -->
       <section class="sidebar">
-        <!-- Sidebar user panel -->
         @include('backpack::inc.sidebar_user_panel')
 
-        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-          {{-- <li class="header">{{ trans('backpack::base.administration') }}</li> --}}
-          <!-- ================================================ -->
-          <!-- ==== Recommended place for admin menu items ==== -->
-          <!-- ================================================ -->
-          <li><a href="{{ backpack_url('dashboard') }}"><i class="fa fa-dashboard"></i> <span>{{ trans('backpack::base.dashboard') }}</span></a></li>
 
 
-          <!-- ======================================= -->
-          {{-- <li class="header">Other menus</li> --}}
+
+          @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
+            <li class="header">{{ trans('app.admin') }}</li>
+
+              <li><a href="{{ backpack_url('dashboard') }}"><i class="fa fa-home"></i> <span>{{ trans('app.home') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale') }}"><i class="fa fa-image"></i> <span>{{ trans('app.sale') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/entity') }}"><i class="fa fa-user"></i> <span>{{ trans('app.entity') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/hotel') }}"><i class="fa fa-building"></i> <span>{{ trans('app.hotels') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/item') }}"><i class="fa fa-bus"></i> <span>{{ trans('app.items') }}</span></a></li>
+
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/user') }}"><i class="fa fa-key"></i> <span>{{ trans('app.user') }}</span></a></li>
+          @endif
+
+
+          @if (Auth::user()->profile == App\Models\User::USER_PROFILE__VENDOR)
+              <li class="header">{{ trans('app.vendor') }}</li>
+              <li><a href="{{ backpack_url('dashboard') }}"><i class="fas fa-home"></i> <span>{{ trans('app.home') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale') }}"><i class="fa fa-image"></i> <span>{{ trans('app.sale') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/entity') }}"><i class="fa fa-user"></i> <span>{{ trans('app.entity') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/hotel') }}"><i class="fa fa-building"></i> <span>{{ trans('app.hotels') }}</span></a></li>
+          @endif
+
+
         </ul>
       </section>
-      <!-- /.sidebar -->
     </aside>
 @endif

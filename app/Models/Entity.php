@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Backpack\CRUD\CrudTrait;
+
+class Entity extends Model
+{
+    use CrudTrait;
+
+    protected $table = 'entities';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
+    protected $guarded = ['id'];
+
+    public function setTypeAttribute($value)
+    {
+        $this->attributes['type'] = serialize($value);
+    }
+
+    public function getTypeAttribute()
+    {
+        return unserialize($this->attributes['type']);
+    }
+
+    public function typeComma()
+    {
+        if (isset($this->attributes['type'])) {
+            $allowed = unserialize($this->attributes['type']);
+
+            if (is_array($allowed)) {
+                $entityTypes = Entity::getEntitiesTypes();
+                $returnValue = '';
+
+                $filtered = array_filter($entityTypes, function($k) use ($allowed) {
+                    return isset($k) && in_array($k, $allowed);
+                }, ARRAY_FILTER_USE_KEY);
+
+                return implode(" | ", array_values($filtered));
+            }
+        }
+
+        return '';
+    }
+
+    public function hotel() {
+        return $this->hasOne('App\Models\Hotel', 'id', 'hotel_id');
+    }
+
+    const ENTITY_TYPE__CLIENT = '1';
+    const ENTITY_TYPE__PROVIDER = '2';
+    const ENTITY_TYPE__THIRD = '3';
+    const ENTITY_TYPE__VENDOR = '4';
+
+    public static function getEntitiesTypes() {
+        return array(
+            self::ENTITY_TYPE__CLIENT => trans('app.client'),
+            self::ENTITY_TYPE__PROVIDER => trans('app.provider'),
+            self::ENTITY_TYPE__THIRD => trans('app.third'),
+            self::ENTITY_TYPE__VENDOR => trans('app.vendor')
+        );
+    }
+
+
+}

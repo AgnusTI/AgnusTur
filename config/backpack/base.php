@@ -12,14 +12,14 @@ return [
     */
 
     // Project name. Shown in the breadcrumbs and a few other places.
-    'project_name' => 'Backpack',
+    'project_name' => 'AgnusTur',
 
     // Menu logos
-    'logo_lg'   => '<b>Back</b>pack',
-    'logo_mini' => '<b>B</b>p',
+    'logo_lg'   => 'Agnus <b>Tur</b>',
+    'logo_mini' => 'A<b>T</b>',
 
     // Developer or company name. Shown in footer.
-    'developer_name' => 'Cristian Tabacitu',
+    'developer_name' => 'Fabricio Langer',
 
     // Developer website. Link in footer.
     'developer_link' => 'http://tabacitu.ro',

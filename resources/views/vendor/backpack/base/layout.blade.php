@@ -39,6 +39,12 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+        .sidebar-menu li a span { padding-left: 8px;}
+        .table_row_slider .row label { font-weight: normal;}
+        .table_row_slider .row span { padding-left: 10px; font-weight: bold;}
+    </style>
 </head>
 <body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini">
 	<script type="text/javascript">
@@ -119,6 +125,9 @@
     <script src="{{ asset('vendor/adminlte') }}/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/plugins/fastclick/fastclick.js"></script>
     <script src="{{ asset('vendor/adminlte') }}/dist/js/app.min.js"></script>
+<!--
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+-->
 
     <!-- page script -->
     <script type="text/javascript">
@@ -140,7 +149,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            
+
         // Set active state on menu element
         var current_url = "{{ Request::fullUrl() }}";
         var full_url = current_url+location.search;
@@ -155,7 +164,7 @@
                 function() { return $(this).attr('href').startsWith(current_url) || current_url.startsWith($(this).attr('href')); }
             );
         }
-        
+
         $curentPageLink.parents('li').addClass('active');
         {{-- Enable deep link to tab --}}
         var activeTab = $('[href="' + location.hash.replace("#", "#tab_") + '"]');
