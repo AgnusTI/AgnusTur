@@ -266,7 +266,7 @@
                         console.log("$formatters " + val);
 
                         if (val != null && val != "") {
-                            return val.substr(8, 2) + '/' + val.substr(5, 2) + '/' + val.substr(0, 4);
+                            return val;//val.substr(8, 2) + '/' + val.substr(5, 2) + '/' + val.substr(0, 4);
                         } else {
                             return "";
                         }

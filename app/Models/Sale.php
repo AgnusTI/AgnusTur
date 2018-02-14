@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
 
+
 class Sale extends Model
 {
     use CrudTrait;
@@ -94,6 +95,8 @@ class Sale extends Model
         }
 
         $this->items()->whereNotIn('id', $ids)->delete();
+
+
 
         $this->items()->saveMany($this->items);
     }

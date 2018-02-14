@@ -94,7 +94,7 @@ class SaleCrudController extends CrudController
             [
                 'name' => 'out_point',
                 'label' => trans('app.out_point'),
-                'type' => 'text',
+                'type' => 'address',
             ],
             [
                 'name' => 'separator',

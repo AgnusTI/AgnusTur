@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
+use Carbon\Carbon;
 
 class SaleItem extends Model
 {
@@ -18,4 +19,13 @@ class SaleItem extends Model
     public function item() {
         return $this->hasOne('App\Models\Item', 'id', 'item_id');
     }
+
+    public function getDtTourAttribute($value)
+    {
+        return Carbon::parse($value)->format('d/m/Y');
+    }
+
+    // public function setDtSaleAttribute($value) {
+    //     if ()
+    // }
 }
