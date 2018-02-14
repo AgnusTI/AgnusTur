@@ -259,9 +259,12 @@
                   require: 'ngModel',
                   link: function(scope, element, attrs, ngModel) {
                     ngModel.$parsers.push(function(val) {
-                       return val;//val.substr(0, 4) + '-' + val.substr(5, 2) + '-' + val.substr(8, 2);//val; 
+                        console.log("$parsers " + val);
+                        return val;//val.substr(0, 4) + '-' + val.substr(5, 2) + '-' + val.substr(8, 2);//val;
                     });
                     ngModel.$formatters.push(function(val) {
+                        console.log("$formatters " + val);
+
                         if (val != null && val != "") {
                             return val.substr(8, 2) + '/' + val.substr(5, 2) + '/' + val.substr(0, 4);
                         } else {
