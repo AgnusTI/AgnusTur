@@ -41,9 +41,35 @@
     <![endif]-->
 
     <style>
+        .form-group input,
+        input.form-control,
+        table.dataTable td,
+        .select2-selection__rendered { color: #000; font-size: 1.0em; font-weight: 600;}
+        label { font-weight: normal; }
+
+        .select2.select2-container { height: 34px !important; }
+        .select2 .select2-selection { height: 34px !important; }
+
+        div.ui-tooltip { display: none !important; }
+
+        .table input[type='number'] { text-align: right; padding-right: 5px; }
+
+
+
+        .child-table-container .table > tbody > tr > td {
+          padding: 2px;
+          line-height: 0.0;
+        }
+        .child-table-container .table > tbody > tr > td > .form-group,
+        .child-table-container .table > tbody > tr > td > div {
+            padding: 2px;
+            margin: 0;
+        }
+
         .sidebar-menu li a span { padding-left: 8px;}
         .table_row_slider .row label { font-weight: normal;}
         .table_row_slider .row span { padding-left: 10px; font-weight: bold;}
+
     </style>
 </head>
 <body class="hold-transition {{ config('backpack.base.skin') }} sidebar-mini">
@@ -165,6 +191,8 @@
             );
         }
 
+
+
         $curentPageLink.parents('li').addClass('active');
         {{-- Enable deep link to tab --}}
         var activeTab = $('[href="' + location.hash.replace("#", "#tab_") + '"]');
@@ -172,7 +200,11 @@
         $('.nav-tabs a').on('shown.bs.tab', function (e) {
             location.hash = e.target.hash.replace("#tab_", "#");
         });
+
+
+
     </script>
+
 
     @include('backpack::inc.alerts')
 
@@ -180,5 +212,6 @@
 
     <!-- JavaScripts -->
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}
+
 </body>
 </html>

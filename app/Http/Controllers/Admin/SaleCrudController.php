@@ -22,16 +22,25 @@ class SaleCrudController extends CrudController
         $this->crud->setModel('App\Models\Sale');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/sale');
         $this->crud->setEntityNameStrings(trans('app.sale'), trans('app.sales'));
+        $this->crud->enableAjaxTable();
 
 
-        $this->crud->addField(
+
+        $this->crud->addFields([
+
+            [
+                'name' => 'entity_id',
+                'type' => 'hidden',
+
+            ],
             [
                 'name' => 'name',
                 'label' => trans('app.name'),
-                'type' => 'text',
+                'type' => 'entity_auto_complete',
+                'key' => 'entity_id',
                 'wrapperAttributes' => ['class' => 'form-group col-md-8'],
-            ]);
-        $this->crud->addFields([
+
+            ],
             [
                 'name' => 'dt_sale',
                 'label' => trans('app.dt_sale'),
@@ -265,12 +274,14 @@ class SaleCrudController extends CrudController
         ]);
 
         if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
-            $this->crud->addFields([
+            $this->crud->addField(
                 [
                     'name' => 'separator3',
                     'type' => 'custom_html',
                     'value' => '<hr><h4>'.trans('app.vendor_and_comission').'</h4>',
-                ],
+                ]
+            );
+            $this->crud->addField(
                 [
                     'name' => 'user_id',
                     'label' => trans('app.vendor'),
@@ -281,7 +292,25 @@ class SaleCrudController extends CrudController
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-4',
                     ],
+                    'value' => Auth::user()->id,
                 ],
+                'create'
+            );
+            $this->crud->addField(
+                [
+                    'name' => 'user_id',
+                    'label' => trans('app.vendor'),
+                    'type' => 'select2',
+                    'entity' => 'user',
+                    'attribute' => 'name',
+                    'model' => 'App\Models\User',
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-4',
+                    ]
+                ],
+                'update'
+            );
+            $this->crud->addFields([
                 [
                     'name' => 'vl_percent_commission',
                     'label' => trans('app.percent_commission'),
@@ -306,46 +335,49 @@ class SaleCrudController extends CrudController
         //
         // Columns
         //
-        $this->crud->setColumns([
-            [
-                'name' => 'dt_sale',
-                'label' => trans('app.dt_sale'),
-                'type' => 'date',
-            ],
-            [
-                'name' => 'name',
-                'label' => trans('app.name'),
-            ],
-            [
-                'name' => 'vl_subtotal',
-                'label' => trans('app.subtotal'),
-                'type' => 'integer_number',
-            ],
-            [
-                'name' => 'vl_discount',
-                'label' => trans('app.discount'),
-                'type' => 'integer_number',
-            ],
-            [
-                'name' => 'vl_percent_discount',
-                'label' => trans('app.percent_discount'),
-                'type' => 'integer_number',
-            ],
-            [
-                'name' => 'vl_total',
-                'label' => trans('app.total'),
-                'type' => 'integer_number',
-            ],
-            [
-                'name' => 'vl_pay',
-                'label' => trans('app.pay'),
-                'type' => 'integer_number',
-            ],
-            [
-                'name' => 'vl_rest',
-                'label' => trans('app.rest'),
-                'type' => 'integer_number',
-            ]
+        $this->crud->addColumn([
+            'name' => 'dt_sale',
+            'label' => trans('app.dt_sale'),
+            'type' => 'date',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'name',
+            'label' => trans('app.name'),
+            'type' => 'text',
+            // 'searchLogic' => function ($query, $column, $searchTerm) {
+            //     $query->orWhere('name', 'ilike', '%'.$searchTerm.'%');
+            //     return false;
+            // }
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_subtotal',
+            'label' => trans('app.subtotal'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_discount',
+            'label' => trans('app.discount'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_percent_discount',
+            'label' => trans('app.percent_discount'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_total',
+            'label' => trans('app.total'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_pay',
+            'label' => trans('app.pay'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_rest',
+            'label' => trans('app.rest'),
+            'type' => 'integer_number',
         ]);
 
         if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
@@ -413,7 +445,7 @@ class SaleCrudController extends CrudController
         // Please note the drawbacks of this though:
         // - 1-n and n-n columns are not searchable
         // - date and datetime columns won't be sortable anymore
-        // $this->crud->enableAjaxTable();
+
 
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
@@ -440,11 +472,34 @@ class SaleCrudController extends CrudController
         // $this->crud->orderBy();
         // $this->crud->groupBy();
         // $this->crud->limit();
+
+
+
+         $this->crud->addFilter([ // select2 filter
+              'name' => 'user_id',
+              'type' => 'select2',
+              'label'=> trans('app.vendor')
+            ], function() {
+                return \App\Models\User::all()->pluck('name', 'id')->toArray();
+            }, function($value) { // if the filter is active
+                $this->crud->addClause('where', 'user_id', $value);
+        });
+        $this->crud->addFilter([ // daterange filter
+               'type' => 'date_range',
+               'name' => 'dt_sale',
+               'label'=> trans('app.dt_sale')
+             ],
+             false,
+             function($value) { // if the filter is active, apply these constraints
+                $dates = json_decode($value);
+                $this->crud->addClause('where', 'dt_sale', '>=', $dates->from);
+                $this->crud->addClause('where', 'dt_sale', '<=', $dates->to);
+         });
     }
 
     public function store(StoreRequest $request)
     {
-        $this->handleUser($request);
+        $this->handleSale($request);
 
         // your additional operations before save here
         $redirect_location = parent::storeCrud($request);
@@ -455,7 +510,7 @@ class SaleCrudController extends CrudController
 
     public function update(UpdateRequest $request)
     {
-        $this->handleUser($request);
+        $this->handleSale($request);
 
         // your additional operations before save here
         $redirect_location = parent::updateCrud($request);
@@ -465,11 +520,31 @@ class SaleCrudController extends CrudController
     }
 
 
-    protected function handleUser(CrudRequest $request)
+    protected function handleSale(CrudRequest $request)
     {
         if (!$request->input('user_id')) {
             $request->request->set('user_id', Auth::user()->id);
         }
+
+
+
+        if (!$request->input('entity_id') || $request->input('entity_id') == "") {
+            $this->client = new Entity();
+            $this->type = array(Entity::ENTITY_TYPE__CLIENT);
+        } else {
+            $this->client = Entity::find($request->input('entity_id'));
+        }
+
+        $this->client->name = $request->input('name');
+        $this->client->phone = $request->input('phone');
+        $this->client->hotel_id = $request->input('hotel_id');
+        $this->client->address = $request->input('address');
+        $this->client->email = $request->input('email');
+        $this->client->room_number = $request->input('room_number');
+        $this->client->out_point = $request->input('out_point');
+        $this->client->save();
+
+        $request->request->set('entity_id', $this->client->id);
     }
 
 

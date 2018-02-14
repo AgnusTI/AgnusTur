@@ -4,7 +4,7 @@
     <?php $entity_model = $crud->model; ?>
     <select
         ng-model="item.{{ $field['name'] }}"
-        @include('crud::inc.field_attributes', ['default_class' =>  'form-control select2_field'])
+        @include('crud::inc.field_attributes', ['default_class' =>  'form-control child_select2_field'])
         >
             @if (isset($field['model']))
                 @foreach ($field['model']::all() as $connected_entity_entry)

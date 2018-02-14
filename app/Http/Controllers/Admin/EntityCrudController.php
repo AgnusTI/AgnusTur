@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 
+use Backpack\CRUD\app\Http\Requests\CrudRequest;
 use App\Http\Requests\EntityRequest as StoreRequest;
 use App\Http\Requests\EntityRequest as UpdateRequest;
 use App\Models\Entity as Entity;
 
 class EntityCrudController extends CrudController
 {
+
     public function setup()
     {
+        $this->defaultEntityType = Entity::ENTITY_TYPE__CLIENT;
 
         $this->crud->setModel('App\Models\Entity');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/entity');
@@ -25,6 +28,7 @@ class EntityCrudController extends CrudController
             'options'   => Entity::getEntitiesTypes(),
             'allows_null' => false,
             'allows_multiple' => true,
+            // 'default' => $this->defaultEntityType,
         ]);
         $this->crud->addField([
             'name' => 'name',
@@ -75,6 +79,7 @@ class EntityCrudController extends CrudController
 
         $this->crud->addColumn([
             'type' => "model_function",
+            'name' => 'type_comma',
             'function_name' => 'typeComma',
             'label'     => trans('app.type'),
         ]);
@@ -109,16 +114,32 @@ class EntityCrudController extends CrudController
 
     public function store(StoreRequest $request)
     {
+        $this->handleTypeEntity($request);
+
         $redirect_location = parent::storeCrud($request);
+
         return $redirect_location;
     }
 
     public function update(UpdateRequest $request)
     {
+        $this->handleTypeEntity($request);
+
         $redirect_location = parent::updateCrud($request);
 
         // $this->data['entry']->typeComma();
 
         return $redirect_location;
+    }
+
+    public function handleTypeEntity(CrudRequest $request)
+    {
+        // dd($request->input('type'));
+
+        if (!$request->input('type')) {
+            $request->request->set('type', [$this->defaultEntityType]);
+        } else if (!in_array($this->defaultEntityType, $request->input('type'))) {
+            array_push($request->input('type'), $this->defaultEntityType);
+        }
     }
 }

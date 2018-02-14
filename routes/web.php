@@ -19,6 +19,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     CRUD::resource('hotel', 'Admin\HotelCrudController');
     CRUD::resource('entity', 'Admin\EntityCrudController');
+    CRUD::resource('client', 'Admin\ClientCrudController');
     CRUD::resource('item', 'Admin\ItemCrudController');
     CRUD::resource('sale', 'Admin\SaleCrudController');
     CRUD::resource('user', 'Admin\UserCrudController');

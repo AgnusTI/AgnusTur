@@ -35,6 +35,7 @@ return [
     'create_sale' => 'iniciar uma nova venda',
 
     'client' => 'Cliente',
+    'clients' => 'Clientes',
     'provider' => 'Fornecedor',
     'third' => 'Tercerizado',
     'vendor' => 'Vendedor',

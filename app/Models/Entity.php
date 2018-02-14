@@ -16,18 +16,18 @@ class Entity extends Model
 
     public function setTypeAttribute($value)
     {
-        $this->attributes['type'] = serialize($value);
+        $this->attributes['type'] = implode(",", $value);
     }
 
     public function getTypeAttribute()
     {
-        return unserialize($this->attributes['type']);
+        return explode(',', $this->attributes['type']);
     }
 
     public function typeComma()
     {
         if (isset($this->attributes['type'])) {
-            $allowed = unserialize($this->attributes['type']);
+            $allowed = $this->type;//unserialize($this->attributes['type']);
 
             if (is_array($allowed)) {
                 $entityTypes = Entity::getEntitiesTypes();
@@ -48,10 +48,10 @@ class Entity extends Model
         return $this->hasOne('App\Models\Hotel', 'id', 'hotel_id');
     }
 
-    const ENTITY_TYPE__CLIENT = '1';
-    const ENTITY_TYPE__PROVIDER = '2';
-    const ENTITY_TYPE__THIRD = '3';
-    const ENTITY_TYPE__VENDOR = '4';
+    const ENTITY_TYPE__CLIENT = '[CLI]';
+    const ENTITY_TYPE__PROVIDER = '[PRO]';
+    const ENTITY_TYPE__THIRD = '[THI]';
+    const ENTITY_TYPE__VENDOR = '[VEN]';
 
     public static function getEntitiesTypes() {
         return array(

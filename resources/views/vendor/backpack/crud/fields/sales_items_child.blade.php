@@ -5,7 +5,7 @@
 <script>
 
     function updateTotalItem(tr) {
-        var item = tr.find(".select2_field[ng-model='item.item_id']");
+        var item = tr.find(".child_select2_field[ng-model='item.item_id']");
 
         var selectedId = item.val();
         var vl_adult = item.find("option[value='" + selectedId + "']").attr("data-vl_adult");
@@ -117,11 +117,9 @@
         $("#vl_pay").focusout(function() {
             updateRest();
         });
-    });
 
-    @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
+        @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
 
-    $(function() {
         $("#vl_percent_commission").focusout(function() {
             var vl_total = parseInt($("#vl_total").val().replace('.', '')) || 0;
             var vl_percent_commission = parseInt($("#vl_percent_commission").val().replace('.', '')) || 0;
@@ -137,9 +135,11 @@
 
             $("#vl_percent_commission").val(vl_percent_commission).formatInteger();
         });
+
+        @endif
+
     });
 
-    @endif
 
 
 
@@ -204,7 +204,7 @@
                         }
                     });
 
-                    $(".select2_field[ng-model='item.item_id']").each(function (i, obj) {
+                    $(".child_select2_field[ng-model='item.item_id']").each(function (i, obj) {
                         if (!$(obj).data("on-select2-selecting")) {
                             $(obj).on('select2:select', function (e) {
                                 updateTotalItem($(this).closest('tr'));

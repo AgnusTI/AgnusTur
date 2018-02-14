@@ -153,10 +153,6 @@
                         if( $scope.items.length < $scope.max ){
                             var item = {};
 
-                            if (window['onAddChildItem'] != null) {
-                                item = window['onAddChildItem'];
-                            }
-
                             $scope.items.push(item);
                         } else {
                             new PNotify({
@@ -168,10 +164,6 @@
                     }
                     else {
                         var item = {};
-
-                        if (window['onAddChildItem'] != null) {
-                            item = window['onAddChildItem'];
-                        }
 
                         $scope.items.push(item);
                     }
@@ -223,10 +215,8 @@
                                 initTime();
                             }
 
-
-                            $('.select2_field').each(function (i, obj) {
-                                if (!$(obj).hasClass("select2-hidden-accessible"))
-                                {
+                            $("#{{ $field['name'] }} .child_select2_field").each(function (i, obj) {
+                                if (!$(obj).hasClass("select2-hidden-accessible")) {
                                     $(obj).select2({
                                         theme: "bootstrap"
                                     });

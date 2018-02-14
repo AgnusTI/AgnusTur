@@ -15,12 +15,22 @@ class EntityController extends Controller
 
         if ($search_term)
         {
-            $results = Entity::where('type', 'like', '%'.$entityType.'%')
-                ->where('name', 'ilike', '%'.$search_term.'%')->paginate(10);
+            $results = Entity::
+                select('entities.*', 'hotels.name as hotel_name', 'hotels.address as hotel_address')
+                ->join('hotels', 'hotels.id', '=', 'entities.hotel_id', 'left outer')
+                ->where('entities.type', 'like', '%'.$entityType.'%')
+                ->where('entities.name', 'ilike', $search_term.'%')
+                ->orderBy('entities.name')
+                ->paginate(10);
         }
         else
         {
-            $results = Entity::where('type', 'ilike', '%'.$entityType.'%')->paginate(10);
+            $results = Entity::
+                select('entities.*', 'hotels.name as hotel_name', 'hotels.address as hotel_address')
+                ->join('hotels', 'hotels.id', '=', 'entities.hotel_id', 'left outer')
+                ->where('entities.type', 'like', '%'.$entityType.'%')
+                ->orderBy('entities.name')
+                ->paginate(10);
         }
 
         return $results;
