@@ -96,7 +96,7 @@ class Sale extends Model
 
         $this->items()->whereNotIn('id', $ids)->delete();
 
-
+        dd($this->items);
 
         $this->items()->saveMany($this->items);
     }
