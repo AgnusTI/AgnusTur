@@ -38,7 +38,7 @@ return [
         // How many items should be shown by default by the Datatable?
         // This value can be overwritten on a specific CRUD by calling
         // $this->crud->setDefaultPageLength(50);
-        'default_page_length' => 25,
+        'default_page_length' => 100,
 
     // PREVIEW
 

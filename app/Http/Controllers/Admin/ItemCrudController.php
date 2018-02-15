@@ -42,6 +42,26 @@ class ItemCrudController extends CrudController
             ],
         ]);
         $this->crud->addField([
+            'name' => 'vl_adult_expense',
+            'label' => trans('app.adult_expense'),
+            'type' => 'integer_number',
+            //'attributes' => ["step" => "any"], // allow decimals
+            'prefix' => "$",
+            'wrapperAttributes' => [
+                'class' => 'form-group image col-md-6',
+            ],
+        ]);
+        $this->crud->addField([
+            'name' => 'vl_child_expense',
+            'label' => trans('app.child_expense'),
+            'type' => 'integer_number',
+            //'attributes' => ["step" => "any"], // allow decimals
+            'prefix' => "$",
+            'wrapperAttributes' => [
+                'class' => 'form-group image col-md-6',
+            ],
+        ]);
+        $this->crud->addField([
             'name' => 'description',
             'label' => trans('app.description'),
             'type' => 'simplemde',
@@ -59,6 +79,16 @@ class ItemCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'vl_child',
             'label' => trans('app.vl_child'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_adult_expense',
+            'label' => trans('app.adult_expense'),
+            'type' => 'integer_number',
+        ]);
+        $this->crud->addColumn([
+            'name' => 'vl_child_expense',
+            'label' => trans('app.child_expense'),
             'type' => 'integer_number',
         ]);
 

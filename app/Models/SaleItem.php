@@ -20,12 +20,12 @@ class SaleItem extends Model
         return $this->hasOne('App\Models\Item', 'id', 'item_id');
     }
 
-    public function getDtTourAttribute($value)
-    {
-        return Carbon::parse($value)->format('Y-m-d');
+    public function setDtTourAttribute($value) {
+        
+        if (substr($value, 2, 1) == "/") {
+            $this->attributes['dt_tour'] = Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+        } else {
+            $this->attributes['dt_tour'] = $value;
+        }
     }
-
-    // public function setDtSaleAttribute($value) {
-    //     if ()
-    // }
 }

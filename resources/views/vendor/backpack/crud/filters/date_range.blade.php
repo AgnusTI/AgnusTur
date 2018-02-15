@@ -1,9 +1,29 @@
 {{-- Date Range Backpack CRUD filter --}}
+@php
+	$filter_label = $filter->label;
+@endphp
+
+@if ($filter->currentValue)
+	@php
+		$dates = (array)json_decode($filter->currentValue);
+		$start_date = $dates['from'];
+		$end_date = $dates['to'];
+		$date_range = implode(' ~ ', $dates);
+		$date_range = str_replace('-', '/', $date_range);
+		$date_range = str_replace('~', '-', $date_range);
+	
+	@endphp
+
+@endif
 
 <li filter-name="{{ $filter->name }}"
 	filter-type="{{ $filter->type }}"
 	class="dropdown {{ Request::get($filter->name)?'active':'' }}">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ $filter->label }} <span class="caret"></span></a>
+	
+	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+		{{ $filter_label }} <span class="filter_detail"></span> <span class="caret"></span>
+	</a>
+	
 	<div class="dropdown-menu">
 		<div class="form-group backpack-filter m-b-0">
 			<div class="input-group date">
@@ -14,17 +34,8 @@
 		        		id="daterangepicker-{{ str_slug($filter->name) }}"
 		        		type="text"
 		        		@if ($filter->currentValue)
-							@php
-								$dates = (array)json_decode($filter->currentValue);
-								$start_date = $dates['from'];
-								$end_date = $dates['to'];
-					        	$date_range = implode(' ~ ', $dates);
-					        	$date_range = str_replace('-', '/', $date_range);
-					        	$date_range = str_replace('~', '-', $date_range);
-
-					        @endphp
-					        placeholder="{{ $date_range }}"
-						@endif
+							placeholder="{{ $date_range }}"
+						@endif	
 		        		>
 		        <div class="input-group-addon">
 		          <a class="daterangepicker-{{ str_slug($filter->name) }}-clear-button" href=""><i class="fa fa-times"></i></a>
@@ -64,7 +75,8 @@
 	<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
   <script>
-		moment.locale('pt-BR');
+		moment.locale("{{\App::getLocale()}}");
+
   		function applyDateRangeFilter(start, end) {
   			if (start && end) {
   				var dates = {
@@ -90,10 +102,12 @@
 			// mark this filter as active in the navbar-filters
 			if (URI(new_url).hasQuery('{{ $filter->name }}', true)) {
 				$('li[filter-name={{ $filter->name }}]').removeClass('active').addClass('active');
+				$('li[filter-name={{ $filter->name }}] .filter_detail').text( start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY') );
 			}
 			else
 			{
 				$('li[filter-name={{ $filter->name }}]').trigger('filter:clear');
+				$('li[filter-name={{ $filter->name }}] .filter_detail').text('');
 			}
   		}
 
@@ -101,21 +115,26 @@
 			var dateRangeInput = $('#daterangepicker-{{ str_slug($filter->name) }}').daterangepicker({
 				timePicker: false,
 		        ranges: {
-		            'Today': [moment().startOf('day'), moment().endOf('day')],
-		            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-		            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-		            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-		            'This Month': [moment().startOf('month'), moment().endOf('month')],
-		            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+		            "{{ trans('app.today') }}": [moment().startOf('day'), moment().endOf('day')],
+		            "{{ trans('app.yesterday') }}": [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+		            "{{ trans('app.last_7_days') }}": [moment().subtract(6, 'days'), moment()],
+		            "{{ trans('app.last_30_days') }}": [moment().subtract(29, 'days'), moment()],
+		            "{{ trans('app.this_month') }}": [moment().startOf('month'), moment().endOf('month')],
+		            "{{ trans('app.last_month') }}": [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 		        },
+				opens: "center",
 				@if ($filter->currentValue)
 		        startDate: moment("{{ $start_date }}"),
 		        endDate: moment("{{ $end_date }}"),
 				@endif
 				alwaysShowCalendars: true,
 				autoUpdateInput: true,
-				//locale: "{{ \App::getLocale() }}"
-				locale: "pt-br"
+				locale: {
+					applyLabel: "{{ trans('app.apply') }}",
+		        	cancelLabel: "{{ trans('app.cancel') }}",
+					customRangeLabel: "{{ trans('app.custom_range') }}",
+				},
+				//locale: "pt-br"
 			},
 			function (start, end) {
 				applyDateRangeFilter(start, end);
@@ -130,6 +149,7 @@
 				// console.log('daterangepicker filter cleared');
 				//if triggered by remove filters click just remove active class,no need to send ajax
 				$('li[filter-name={{ $filter->name }}]').removeClass('active');
+				$('li[filter-name={{ $filter->name }}] .filter_detail').text('');
 			});
 
 			// datepicker clear button

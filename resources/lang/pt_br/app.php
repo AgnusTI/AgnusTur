@@ -75,4 +75,25 @@ return [
     'home' => 'Inicial',
 
     'vendor_and_comission' => 'Vendedor e comissão',
+
+    'expense' => 'Despesa',
+    'net_total' => 'Total Líquido',
+
+    'child_expense' => 'Despesa com criança',
+    'adult_expense' => 'Despesa com adulto',
+
+    'today' => 'Hoje',
+    'yesterday' => 'Ontem',
+    'last_7_days' => 'Últimos 7 dias',
+    'last_30_days' => 'Últimos 30 dias',
+    'this_month' => 'Este mês',
+    'last_month' => 'Mês passado',
+
+    'apply' => 'Aplicar',
+    'cancel' => 'Cancelar',
+    'custom_range' => 'Outro',
+    
+    'opened' => 'Aberta',
+    'closed' => 'Fechada',
+    'canceled' => 'Cancelada',
 ];

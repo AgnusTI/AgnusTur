@@ -48,7 +48,7 @@
         label { font-weight: normal; }
 
         .select2.select2-container { height: 34px !important; }
-        .select2 .select2-selection { height: 34px !important; }
+        .select2 .select2-selection { height: 34px !important; padding-top: 10px; color: #000; }
 
         div.ui-tooltip { display: none !important; }
 
@@ -69,6 +69,11 @@
         .sidebar-menu li a span { padding-left: 8px;}
         .table_row_slider .row label { font-weight: normal;}
         .table_row_slider .row span { padding-left: 10px; font-weight: bold;}
+
+
+        @media screen and (max-width: 1024px) {
+            body { font-size: 12px; }
+        }
 
     </style>
 </head>

@@ -25,7 +25,11 @@ class SaleCrudController extends CrudController
         $this->crud->enableAjaxTable();
 
 
-
+        /**
+         * 
+         * FIELDS DEFINITIONS
+         * 
+         */
         $this->crud->addFields([
 
             [
@@ -104,6 +108,11 @@ class SaleCrudController extends CrudController
         ]);
 
 
+        /**
+         * 
+         * ITENS
+         * 
+         */
         $itemsColumns = array(
             ['label' => '',
              'type' => 'child_hidden',
@@ -137,7 +146,7 @@ class SaleCrudController extends CrudController
                 ['label' => trans('app.hr_tour'),
                  'type' => 'child_time',
                  'name' => 'hr_tour',
-                 'size' => '1'
+                 'size' => '1',
                  // 'attributes' => ['convert-to-date' => ''],
                  ]
              );
@@ -273,6 +282,10 @@ class SaleCrudController extends CrudController
             ],
         ]);
 
+
+        /**
+         * ADMIN FIELDS (VENDOR)
+         */
         if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
             $this->crud->addField(
                 [
@@ -310,14 +323,34 @@ class SaleCrudController extends CrudController
                 ],
                 'update'
             );
+
             $this->crud->addFields([
+                [
+                    'name' => 'vl_expense',
+                    'label' => trans('app.expense'),
+                    'type' => 'integer_number',
+                    'prefix' => "$",
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-2',
+                    ],
+                ],
+                [
+                    'name' => 'vl_net_total',
+                    'label' => trans('app.net_total'),
+                    'type' => 'integer_number',
+                    'prefix' => "$",
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-2',
+                    ],
+                    'attributes' => ['readonly' => '', 'tabindex' => '-1']
+                ],
                 [
                     'name' => 'vl_percent_commission',
                     'label' => trans('app.percent_commission'),
                     'type' => 'integer_number',
                     'prefix' => "%",
                     'wrapperAttributes' => [
-                        'class' => 'form-group col-md-4',
+                        'class' => 'form-group col-md-2',
                     ],
                 ],
                 [
@@ -326,19 +359,25 @@ class SaleCrudController extends CrudController
                     'type' => 'integer_number',
                     'prefix' => "$",
                     'wrapperAttributes' => [
-                        'class' => 'form-group col-md-4',
+                        'class' => 'form-group col-md-2',
                     ],
                 ],
             ]);
         }
 
-        //
-        // Columns
-        //
+        /**
+         * 
+         * COLUMNS
+         * 
+         */
         $this->crud->addColumn([
             'name' => 'dt_sale',
             'label' => trans('app.dt_sale'),
             'type' => 'date',
+            'searchLogic' => function ($query, $column, $searchTerm) {
+                //$query->orWhere('name', 'ilike', '%'.$searchTerm.'%');
+                return false;
+            }
         ]);
         $this->crud->addColumn([
             'name' => 'name',
@@ -394,6 +433,48 @@ class SaleCrudController extends CrudController
 
         $this->crud->enableDetailsRow();
         $this->crud->allowAccess('details_row');
+        $this->crud->enableExportButtons();
+        
+        
+        
+        if (Auth::user()->profile == User::USER_PROFILE__VENDOR) {
+            $this->crud->addClause('where', 'user_id', '=', Auth::user()->id);
+        }
+
+
+        /**
+         * 
+         * FILTERS
+         * 
+         */
+        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+            $this->crud->addFilter([ // select2 filter
+                'name' => 'user_id',
+                'type' => 'select2',
+                'label'=> trans('app.vendor')
+            ], function() {
+                return \App\Models\User::all()->pluck('name', 'id')->toArray();
+            }, function($value) { // if the filter is active
+                $this->crud->addClause('where', 'user_id', $value);
+            });
+        }
+
+        $this->crud->addFilter([ // daterange filter
+             'type' => 'date_range',
+             'name' => 'dt_sale',
+             'label'=> trans('app.dt_sale')
+           ],
+           false,
+           function($value) { // if the filter is active, apply these constraints
+              $dates = json_decode($value);
+              $this->crud->addClause('where', 'dt_sale', '>=', $dates->from);
+              $this->crud->addClause('where', 'dt_sale', '<=', $dates->to);
+        });
+
+
+        $this->crud->orderBy("dt_sale");
+        
+        
         //$this->setDetailsRowView('sale_details_row');
 
 
@@ -450,13 +531,11 @@ class SaleCrudController extends CrudController
         // ------ DATATABLE EXPORT BUTTONS
         // Show export to PDF, CSV, XLS and Print buttons on the table view.
         // Does not work well with AJAX datatables.
-        $this->crud->enableExportButtons();
+        
         //$this->crud->allowAccess('show');
 
 
-        if (Auth::user()->profile == User::USER_PROFILE__VENDOR) {
-            $this->crud->addClause('where', 'user_id', '=', Auth::user()->id);
-        }
+        
 
         // ------ ADVANCED QUERIES
         // $this->crud->addClause('active');
@@ -475,26 +554,7 @@ class SaleCrudController extends CrudController
 
 
 
-         $this->crud->addFilter([ // select2 filter
-              'name' => 'user_id',
-              'type' => 'select2',
-              'label'=> trans('app.vendor')
-            ], function() {
-                return \App\Models\User::all()->pluck('name', 'id')->toArray();
-            }, function($value) { // if the filter is active
-                $this->crud->addClause('where', 'user_id', $value);
-        });
-        $this->crud->addFilter([ // daterange filter
-               'type' => 'date_range',
-               'name' => 'dt_sale',
-               'label'=> trans('app.dt_sale')
-             ],
-             false,
-             function($value) { // if the filter is active, apply these constraints
-                $dates = json_decode($value);
-                $this->crud->addClause('where', 'dt_sale', '>=', $dates->from);
-                $this->crud->addClause('where', 'dt_sale', '<=', $dates->to);
-         });
+         
     }
 
     public function store(StoreRequest $request)
@@ -561,4 +621,5 @@ class SaleCrudController extends CrudController
         // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
         return view('crud::sale_details_row', $this->data);
     }
+
 }

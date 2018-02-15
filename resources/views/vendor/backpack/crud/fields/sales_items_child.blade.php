@@ -61,8 +61,6 @@
 
 
 
-
-
     function calculateDiscountByPercentItem(tr) {
         var vl_subtotal = parseInt(tr.find("input[ng-model='item.vl_subtotal']").val().replace(".", "")) || 0;
         var vl_percent_discount = parseInt(tr.find("input[ng-model='item.vl_percent_discount']").val().replace(".", "")) || 0;
@@ -102,6 +100,11 @@
         $("#vl_total").val(vl_total_sum).formatInteger();
 
         updateRest();
+
+        @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
+            $("#vl_expense").focusout();
+            $("#vl_percent_commission").focusout();
+        @endif
     }
 
     function updateRest() {
@@ -118,23 +121,36 @@
             updateRest();
         });
 
+        
+
         @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
+            /**
+            *   ADMINISTRATOR
+            */
 
-        $("#vl_percent_commission").focusout(function() {
-            var vl_total = parseInt($("#vl_total").val().replace('.', '')) || 0;
-            var vl_percent_commission = parseInt($("#vl_percent_commission").val().replace('.', '')) || 0;
-            var vl_commission = parseInt(vl_percent_commission * vl_total / 100) || 0;
+            $("#vl_expense").focusout(function() {
+                var vl_total = parseInt($("#vl_total").val().replace('.', '')) || 0;
+                var vl_expense = parseInt($("#vl_expense").val().replace('.', '')) || 0;
+                var vl_net_total = parseInt( vl_total - vl_expense ) || 0; 
 
-            $("#vl_commission").val(vl_commission).formatInteger();
-        });
+                $("#vl_net_total").val(vl_net_total).formatInteger();
+            });
 
-        $("#vl_commission").focusout(function() {
-            var vl_total = parseInt($("#vl_total").val().replace('.', '')) || 0;
-            var vl_commission = parseInt($("#vl_commission").val().replace('.', '')) || 0;
-            var vl_percent_commission = parseInt(vl_commission * 100 / vl_total) || 0;
+            $("#vl_percent_commission").focusout(function() {
+                var vl_total = parseInt($("#vl_net_total").val().replace('.', '')) || 0;
+                var vl_percent_commission = parseInt($("#vl_percent_commission").val().replace('.', '')) || 0;
+                var vl_commission = parseInt(vl_percent_commission * vl_total / 100) || 0;
 
-            $("#vl_percent_commission").val(vl_percent_commission).formatInteger();
-        });
+                $("#vl_commission").val(vl_commission).formatInteger();
+            });
+
+            $("#vl_commission").focusout(function() {
+                var vl_total = parseInt($("#vl_net_total").val().replace('.', '')) || 0;
+                var vl_commission = parseInt($("#vl_commission").val().replace('.', '')) || 0;
+                var vl_percent_commission = parseInt(vl_commission * 100 / vl_total) || 0;
+
+                $("#vl_percent_commission").val(vl_percent_commission).formatInteger();
+            });
 
         @endif
 

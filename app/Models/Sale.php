@@ -96,8 +96,18 @@ class Sale extends Model
 
         $this->items()->whereNotIn('id', $ids)->delete();
 
-        dd($this->items);
-
         $this->items()->saveMany($this->items);
+    }
+
+    const SALE_STATUS__OPENED = '[OP]';
+    const SALE_STATUS__CLOSED = '[CL]';
+    const SALE_STATUS__CANCELED = '[CA]';
+
+    public static function getSaleStatus() {
+        return array(
+            self::SALE_STATUS__OPENED => trans('app.opened'),
+            self::SALE_STATUS__CLOSED => trans('app.closed'),
+            self::SALE_STATUS__CANCELED => trans('app.canceled')
+        );
     }
 }
