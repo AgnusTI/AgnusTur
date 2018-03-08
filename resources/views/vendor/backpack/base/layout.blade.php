@@ -33,6 +33,8 @@
 
     @yield('after_styles')
 
+    @stack('after_styles_stack')
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -214,6 +216,8 @@
     @include('backpack::inc.alerts')
 
     @yield('after_scripts')
+    
+    @stack('after_scripts_stack')
 
     <!-- JavaScripts -->
     {{-- <script src="{{ mix('js/app.js') }}"></script> --}}

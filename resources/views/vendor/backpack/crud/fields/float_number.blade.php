@@ -9,7 +9,6 @@
         	type="float_number"
         	name="{{ $field['name'] }}"
             id="{{ $field['name'] }}"
-            pattern="[0-9]*"
             value="{{ old($field['name']) ? str_replace('.', ',', old($field['name'])) :
                 (isset($field['value']) ? str_replace('.', ',', $field['value']) : (isset($field['default']) ? $field['default'] : '' )) }}"
             @include('crud::inc.field_attributes')
@@ -65,18 +64,27 @@
                 });
             });
 
+            $.fn.extend({
+                formatFloat: function() {
+                    var val = Number($(this).val().replace(',', '.'));
+                    if (val == "") {
+                        val = 0;
+                    }
+                    $(this).val(val.format(4, 3, '.', ','));
+                }
+            });
+
             function initFloatNumber() {
                 $("input[type='float_number']").each(function (i, obj) {
                     if (!$(obj).data('float_number')) {
                         $(obj).focusin(function() {
                             var val = Number($(this).val().replace('.', '').replace(',', '.'));
-                            $(this).val(val.format(2, 3, '.', ',').replace('.', ''));
+                            $(this).val(val.format(4, 3, '.', ',').replace('.', ''));
                             $(this).select();
                         }).focusout(function() {
-                            var val = Number($(this).val().replace('.', '').replace(',', '.'));
-                            $(this).val(val.format(2, 3, '.', ','));
+                            $(this).formatFloat();
                         })
-                        .focusout();
+                        .formatFloat();
                     }
                 });
 

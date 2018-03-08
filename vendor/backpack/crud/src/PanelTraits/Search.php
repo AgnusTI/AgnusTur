@@ -55,13 +55,13 @@ trait Search
                 case 'date':
                 case 'datetime':
                 case 'text':
-                    $query->orWhere($column['name'], 'ilike', '%'.$searchTerm.'%');
+                    $query->orWhere($column['name'], 'like', '%'.$searchTerm.'%');
                     break;
 
                 case 'select':
                 case 'select_multiple':
                     $query->orWhereHas($column['entity'], function ($q) use ($column, $searchTerm) {
-                        $q->where($column['attribute'], 'ilike', '%'.$searchTerm.'%');
+                        $q->where($column['attribute'], 'like', '%'.$searchTerm.'%');
                     });
                     break;
 

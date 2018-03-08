@@ -59,6 +59,8 @@ return [
     'hr_tour' => 'Hora do passeio',
 
     'payment_type' => 'Forma de pagamento',
+    'payment' => 'Forma de pagamento',
+    'payments' => 'Formas de pagamento',
     'vl_payment' => 'Valor pago',
     'total_and_payment' => 'Totais e pagamento',
 
@@ -96,4 +98,6 @@ return [
     'opened' => 'Aberta',
     'closed' => 'Fechada',
     'canceled' => 'Cancelada',
+
+    
 ];

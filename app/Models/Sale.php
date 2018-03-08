@@ -31,9 +31,9 @@ class Sale extends Model
         return $this->hasMany('App\Models\SaleItem', 'sale_id', 'id');
     }
 
-
-    public function payments() {
-        return $this->hasMany('App\Models\SalePayment', 'sale_id', 'id');
+    
+    public function payment() {
+        return $this->hasOne('App\Models\Payment', 'id', 'payment_id');
     }
 
     public function openEntityRegister($crud = false)
@@ -110,4 +110,5 @@ class Sale extends Model
             self::SALE_STATUS__CANCELED => trans('app.canceled')
         );
     }
+
 }

@@ -180,11 +180,11 @@ class SaleCrudController extends CrudController
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.percent_discount'),
-             'type' => 'child_integer_number',
+             'type' => 'child_float_number',
              'name' => 'vl_percent_discount',
              //'suffix' => "%",
              'size' => '1',
-             'attributes' => ['convert-to-integer' => '']
+             'attributes' => ['convert-to-float' => '']
             ],
             ['label' => trans('app.total'),
              'type' => 'child_integer_number',
@@ -240,7 +240,7 @@ class SaleCrudController extends CrudController
             [
                 'name' => 'vl_percent_discount',
                 'label' => trans('app.percent_discount'),
-                'type' => 'integer_number',
+                'type' => 'float_number',
                 //'attributes' => ["step" => "any"], // allow decimals
                 'sufix' => "%",
                 'wrapperAttributes' => [
@@ -266,7 +266,7 @@ class SaleCrudController extends CrudController
                 //'attributes' => ["step" => "any"], // allow decimals
                 'prefix' => "$",
                 'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6',
+                    'class' => 'form-group col-md-4',
                 ],
             ],
             [
@@ -276,9 +276,21 @@ class SaleCrudController extends CrudController
                 //'attributes' => ["step" => "any"], // allow decimals
                 'prefix' => "$",
                 'wrapperAttributes' => [
-                    'class' => 'form-group col-md-6',
+                    'class' => 'form-group col-md-4',
                 ],
                 'attributes' => ['readonly' => '', 'tabindex' => '-1']
+            ],
+            [
+                'name' => 'payment_id',
+                'label' => trans('app.payment'),
+                'type' => 'select2',
+                'entity' => 'payment',
+                'attribute' => 'description',
+                'model' => 'App\Models\Payment',
+                // 'data_source' => url('/admin/api/hotel/list'),
+                // 'placeholder' => trans('app.hotel_placeholder'),
+                // 'minimum_input_length' => 2,
+                'wrapperAttributes' => ['class' => 'form-group col-md-4'],
             ],
         ]);
 
@@ -347,7 +359,7 @@ class SaleCrudController extends CrudController
                 [
                     'name' => 'vl_percent_commission',
                     'label' => trans('app.percent_commission'),
-                    'type' => 'integer_number',
+                    'type' => 'float_number',
                     'prefix' => "%",
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-2',
@@ -401,7 +413,7 @@ class SaleCrudController extends CrudController
         $this->crud->addColumn([
             'name' => 'vl_percent_discount',
             'label' => trans('app.percent_discount'),
-            'type' => 'integer_number',
+            'type' => 'float_number',
         ]);
         $this->crud->addColumn([
             'name' => 'vl_total',
@@ -459,6 +471,18 @@ class SaleCrudController extends CrudController
             });
         }
 
+
+        $this->crud->addFilter([ // select2_ajax filter
+            'name' => 'entity_id',
+            'type' => 'select2_ajax',
+            'label'=> trans('app.client'),
+            'placeholder' => trans('app.entity_client_placeholder')
+            ],
+            url('/admin/entity/ajax-client-options'), // the ajax route
+            function($value) { // if the filter is active
+                $this->crud->addClause('where', 'entity_id', $value);
+        });
+
         $this->crud->addFilter([ // daterange filter
              'type' => 'date_range',
              'name' => 'dt_sale',
@@ -473,87 +497,6 @@ class SaleCrudController extends CrudController
 
 
         $this->crud->orderBy("dt_sale");
-        
-        
-        //$this->setDetailsRowView('sale_details_row');
-
-
-        // $this->crud->addButtonFromModelFunction('line', 'sale', 'openEntityRegister', 'beginning'); // add a button whose HTML is returned by a method in the CRUD model
-
-        // ------ CRUD FIELDS
-        // $this->crud->addField($options, 'update/create/both');
-        // $this->crud->addFields($array_of_arrays, 'update/create/both');
-        // $this->crud->removeField('name', 'update/create/both');
-        // $this->crud->removeFields($array_of_names, 'update/create/both');
-
-        // ------ CRUD COLUMNS
-        // $this->crud->addColumn(); // add a single column, at the end of the stack
-        // $this->crud->addColumns(); // add multiple columns, at the end of the stack
-        // $this->crud->removeColumn('column_name'); // remove a column from the stack
-        // $this->crud->removeColumns(['column_name_1', 'column_name_2']); // remove an array of columns from the stack
-        // $this->crud->setColumnDetails('column_name', ['attribute' => 'value']); // adjusts the properties of the passed in column (by name)
-        // $this->crud->setColumnsDetails(['column_1', 'column_2'], ['attribute' => 'value']);
-
-        // ------ CRUD BUTTONS
-        // possible positions: 'beginning' and 'end'; defaults to 'beginning' for the 'line' stack, 'end' for the others;
-        // $this->crud->addButton($stack, $name, $type, $content, $position); // add a button; possible types are: view, model_function
-        // $this->crud->addButtonFromModelFunction($stack, $name, $model_function_name, $position); // add a button whose HTML is returned by a method in the CRUD model
-        // $this->crud->addButtonFromView($stack, $name, $view, $position); // add a button whose HTML is in a view placed at resources\views\vendor\backpack\crud\buttons
-        // $this->crud->removeButton($name);
-        // $this->crud->removeButtonFromStack($name, $stack);
-        // $this->crud->removeAllButtons();
-        // $this->crud->removeAllButtonsFromStack('line');
-
-        // ------ CRUD ACCESS
-        // $this->crud->allowAccess(['list', 'create', 'update', 'reorder', 'delete']);
-        // $this->crud->denyAccess(['list', 'create', 'update', 'reorder', 'delete']);
-
-        // ------ CRUD REORDER
-        // $this->crud->enableReorder('label_name', MAX_TREE_LEVEL);
-        // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('reorder');
-
-        // ------ CRUD DETAILS ROW
-        // $this->crud->enableDetailsRow();
-        // NOTE: you also need to do allow access to the right users: $this->crud->allowAccess('details_row');
-        // NOTE: you also need to do overwrite the showDetailsRow($id) method in your EntityCrudController to show whatever you'd like in the details row OR overwrite the views/backpack/crud/details_row.blade.php
-
-        // ------ REVISIONS
-        // You also need to use \Venturecraft\Revisionable\RevisionableTrait;
-        // Please check out: https://laravel-backpack.readme.io/docs/crud#revisions
-        // $this->crud->allowAccess('revisions');
-
-        // ------ AJAX TABLE VIEW
-        // Please note the drawbacks of this though:
-        // - 1-n and n-n columns are not searchable
-        // - date and datetime columns won't be sortable anymore
-
-
-        // ------ DATATABLE EXPORT BUTTONS
-        // Show export to PDF, CSV, XLS and Print buttons on the table view.
-        // Does not work well with AJAX datatables.
-        
-        //$this->crud->allowAccess('show');
-
-
-        
-
-        // ------ ADVANCED QUERIES
-        // $this->crud->addClause('active');
-        // $this->crud->addClause('type', 'car');
-        // $this->crud->addClause('where', 'name', '==', 'car');
-        // $this->crud->addClause('whereName', 'car');
-        // $this->crud->addClause('whereHas', 'posts', function($query) {
-        //     $query->activePosts();
-        // });
-        // $this->crud->addClause('withoutGlobalScopes');
-        // $this->crud->addClause('withoutGlobalScope', VisibleScope::class);
-        // $this->crud->with(); // eager load relationships
-        // $this->crud->orderBy();
-        // $this->crud->groupBy();
-        // $this->crud->limit();
-
-
-
          
     }
 
@@ -621,5 +564,10 @@ class SaleCrudController extends CrudController
         // load the view from /resources/views/vendor/backpack/crud/ if it exists, otherwise load the one in the package
         return view('crud::sale_details_row', $this->data);
     }
+
+
+
+
+    
 
 }

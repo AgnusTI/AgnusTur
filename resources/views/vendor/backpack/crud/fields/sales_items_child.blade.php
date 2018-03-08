@@ -50,10 +50,10 @@
         var vl_subtotal = parseInt(tr.find("input[ng-model='item.vl_subtotal']").val().replace(".", "")) || 0;
         var vl_total = parseInt(tr.find("input[ng-model='item.vl_total']").val().replace(".", "")) || 0;
         var vl_discount = parseInt(vl_subtotal - vl_total) || 0;
-        var vl_percent_discount = parseInt(vl_discount * 100 / vl_subtotal) || 0;
+        var vl_percent_discount = parseFloat(vl_discount * 100 / vl_subtotal) || 0;
 
         tr.find("input[ng-model='item.vl_percent_discount']").val(vl_percent_discount);
-        tr.find("input[ng-model='item.vl_percent_discount']").formatInteger();
+        tr.find("input[ng-model='item.vl_percent_discount']").formatFloat();
         tr.find("input[ng-model='item.vl_percent_discount']").trigger('input');
 
         updateTotal();
@@ -62,8 +62,10 @@
 
 
     function calculateDiscountByPercentItem(tr) {
+        console.log('calculateDiscountByPercentItem');
+        
         var vl_subtotal = parseInt(tr.find("input[ng-model='item.vl_subtotal']").val().replace(".", "")) || 0;
-        var vl_percent_discount = parseInt(tr.find("input[ng-model='item.vl_percent_discount']").val().replace(".", "")) || 0;
+        var vl_percent_discount = parseFloat(tr.find("input[ng-model='item.vl_percent_discount']").val().replace(".", "").replace(",", ".")) || 0;
         var vl_discount = parseInt(vl_percent_discount * vl_subtotal / 100) || 0;
         var vl_total = parseInt(vl_subtotal - vl_discount) || 0;
 
@@ -92,18 +94,20 @@
         $("input[ng-model='item.vl_total']").each(function() {
             vl_total_sum += parseInt($(this).val().replace(".", ""), 10);
         });
-        var vl_percent_discount_sum = parseInt(vl_discount_sum * 100 / vl_subtotal_sum) || 0;
+        var vl_percent_discount_sum = parseFloat(vl_discount_sum * 100 / vl_subtotal_sum) || 0;
+
+
 
         $("#vl_subtotal").val(vl_subtotal_sum).formatInteger();
         $("#vl_discount").val(vl_discount_sum).formatInteger();
-        $("#vl_percent_discount").val(vl_percent_discount_sum).formatInteger();
+        $("#vl_percent_discount").val(vl_percent_discount_sum).formatFloat();
         $("#vl_total").val(vl_total_sum).formatInteger();
 
         updateRest();
 
         @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
             $("#vl_expense").focusout();
-            $("#vl_percent_commission").focusout();
+            $("#vl_commission").focusout();
         @endif
     }
 
@@ -138,7 +142,7 @@
 
             $("#vl_percent_commission").focusout(function() {
                 var vl_total = parseInt($("#vl_net_total").val().replace('.', '')) || 0;
-                var vl_percent_commission = parseInt($("#vl_percent_commission").val().replace('.', '')) || 0;
+                var vl_percent_commission = parseFloat($("#vl_percent_commission").val().replace('.', '')) || 0;
                 var vl_commission = parseInt(vl_percent_commission * vl_total / 100) || 0;
 
                 $("#vl_commission").val(vl_commission).formatInteger();
@@ -147,9 +151,9 @@
             $("#vl_commission").focusout(function() {
                 var vl_total = parseInt($("#vl_net_total").val().replace('.', '')) || 0;
                 var vl_commission = parseInt($("#vl_commission").val().replace('.', '')) || 0;
-                var vl_percent_commission = parseInt(vl_commission * 100 / vl_total) || 0;
+                var vl_percent_commission = parseFloat(vl_commission * 100 / vl_total) || 0;
 
-                $("#vl_percent_commission").val(vl_percent_commission).formatInteger();
+                $("#vl_percent_commission").val(vl_percent_commission).formatFloat();
             });
 
         @endif

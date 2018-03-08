@@ -85,10 +85,9 @@
                             $(this).val(val.format(0, 3, '.', ',').replace('.', ''));
                             $(this).select();
                         }).focusout(function() {
-                            
                             $(this).formatInteger();
                         })
-                        .focusout();
+                        .formatInteger();
 
                         $(obj).data('integer_number', true);
                     }

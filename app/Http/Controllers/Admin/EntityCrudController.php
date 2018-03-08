@@ -142,4 +142,16 @@ class EntityCrudController extends CrudController
             array_push($request->input('type'), $this->defaultEntityType);
         }
     }
+
+
+    public function clientOptions() 
+    {
+        $term = $this->request->input('term');
+        
+        $options = \App\Models\Entity::
+            where('type', 'like', '%'.\App\Models\Entity::ENTITY_TYPE__CLIENT.'%')
+            ->where('name', 'ilike', '%'.$term.'%')->get();
+        
+        return $options->pluck('name', 'id');
+    }
 }

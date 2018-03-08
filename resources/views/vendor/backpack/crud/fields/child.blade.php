@@ -208,6 +208,9 @@
                             if (window['initIntegerNumber'] != null) {
                                 initIntegerNumber();
                             }
+                            if (window['initFloatNumber'] != null) {
+                                initFloatNumber();
+                            }
                             if (window['initDatePicker'] != null) {
                                 initDatePicker();
                             }

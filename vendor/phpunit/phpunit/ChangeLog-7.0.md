@@ -2,6 +2,21 @@
 
 All notable changes of the PHPUnit 7.0 release series are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## [7.0.2] - 2018-02-26
+
+### Fixed
+
+* Fixed [#2974](https://github.com/sebastianbergmann/phpunit/issues/2974): JUnit XML logfile contains invalid characters when test output contains binary data
+* Fixed [#3014](https://github.com/sebastianbergmann/phpunit/issues/3014): `TypeError` in `PHPUnit\Framework\TestCase::getActualOutput()` when callback registered using `setOutputCallback()` does not return a string
+* Removed more superfluous `@throws \Exception` annotations
+
+## [7.0.1] - 2018-02-13
+
+### Fixed
+
+* Fixed [#3000](https://github.com/sebastianbergmann/phpunit/issues/3000): Directories are not created recursively
+* Removed superfluous `@throws \Exception` annotations from assertion methods
+
 ## [7.0.0] - 2018-02-02
 
 ### Added
@@ -30,5 +45,7 @@ All notable changes of the PHPUnit 7.0 release series are documented in this fil
 * Fixed [#2907](https://github.com/sebastianbergmann/phpunit/issues/2907): `StringMatchesFormatDescription` constraint does not handle escaped `%` correctly
 * Fixed [#2919](https://github.com/sebastianbergmann/phpunit/issues/2919): `assertJsonStringEqualsJsonString()` matches empty object as empty array
 
+[7.0.2]: https://github.com/sebastianbergmann/phpunit/compare/7.0.1...7.0.2
+[7.0.1]: https://github.com/sebastianbergmann/phpunit/compare/7.0.0...7.0.1
 [7.0.0]: https://github.com/sebastianbergmann/phpunit/compare/6.5...7.0.0
 
