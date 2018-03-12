@@ -11,7 +11,7 @@
 |
 */
 Route::get('/', function () {
-    
+    return redirect('admin/home');
 });
 
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
