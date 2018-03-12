@@ -23,6 +23,10 @@ class Sale extends Model
         return $this->hasOne('App\Models\Hotel', 'id', 'hotel_id');
     }
 
+    public function partner() {
+        return $this->hasOne('App\Models\Entity', 'id', 'partner_id');
+    }
+
     public function user() {
         return $this->hasOne('App\Models\User', 'id', 'user_id');
     }

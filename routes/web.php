@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('entity/ajax-client-options', 'Admin\EntityCrudController@clientOptions');
     CRUD::resource('entity', 'Admin\EntityCrudController');
     CRUD::resource('client', 'Admin\ClientCrudController');
+    CRUD::resource('partner', 'Admin\PartnerCrudController');
     CRUD::resource('item', 'Admin\ItemCrudController');
     CRUD::resource('sale', 'Admin\SaleCrudController');
     CRUD::resource('user', 'Admin\UserCrudController');

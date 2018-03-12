@@ -34,13 +34,13 @@ class EntityCrudController extends CrudController
             'name' => 'name',
             'label' => trans('app.name'),
             'type' => 'text',
-            'wrapperAttributes' => ['class' => 'col-md-8'],
+            'wrapperAttributes' => ['class' => 'form-group col-md-8'],
         ]);
         $this->crud->addField([
             'name' => 'phone',
             'label' => trans('app.phone'),
             'type' => 'text',
-            'wrapperAttributes' => ['class' => 'col-md-4'],
+            'wrapperAttributes' => ['class' => 'form-group col-md-4'],
         ]);
         $this->crud->addField([
             'name' => 'email',
@@ -63,13 +63,13 @@ class EntityCrudController extends CrudController
             'name' => 'address',
             'label' => trans('app.address'),
             'type' => 'text',
-            'wrapperAttributes' => ['class' => 'col-md-8'],
+            'wrapperAttributes' => ['class' => 'form-group col-md-8'],
         ]);
         $this->crud->addField([
             'name' => 'room_number',
             'label' => trans('app.room_number'),
             'type' => 'text',
-            'wrapperAttributes' => ['class' => 'col-md-4'],
+            'wrapperAttributes' => ['class' => 'form-group col-md-4'],
         ]);
         $this->crud->addField([
             'name' => 'out_point',
@@ -81,7 +81,7 @@ class EntityCrudController extends CrudController
             'type' => "model_function",
             'name' => 'type_comma',
             'function_name' => 'typeComma',
-            'label'     => trans('app.type'),
+            'label' => trans('app.type'),
         ]);
         $this->crud->addColumn([
             'name' => 'name',

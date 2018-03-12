@@ -37,7 +37,8 @@ return [
     'client' => 'Cliente',
     'clients' => 'Clientes',
     'provider' => 'Fornecedor',
-    'third' => 'Tercerizado',
+    'partner' => 'Parceiro',
+    'partners' => 'Parceiros',
     'vendor' => 'Vendedor',
 
     'dt_sale' => 'Data da venda',
@@ -52,7 +53,7 @@ return [
     'total' => 'Total',
     'pay' => 'Pago',
     'rest' => 'Restante',
-    'percent_commission' => '% comissão',
+    'percent_commission' => '% Comissão',
     'commission' => 'Comissão',
 
     'dt_tour' => 'Data do passeio',
@@ -63,6 +64,7 @@ return [
     'payments' => 'Formas de pagamento',
     'vl_payment' => 'Valor pago',
     'total_and_payment' => 'Totais e pagamento',
+
 
     'user' => 'Usuário',
     'users' => 'Usuários',
@@ -99,5 +101,7 @@ return [
     'closed' => 'Fechada',
     'canceled' => 'Cancelada',
 
-    
+    'vl_partner' => 'Valor parceiro',
+    'percent_partner' => '% Parceiro',
+    'none' => '-',
 ];

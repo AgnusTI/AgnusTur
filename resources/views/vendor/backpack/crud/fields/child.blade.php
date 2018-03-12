@@ -221,7 +221,9 @@
                             $("#{{ $field['name'] }} .child_select2_field").each(function (i, obj) {
                                 if (!$(obj).hasClass("select2-hidden-accessible")) {
                                     $(obj).select2({
-                                        theme: "bootstrap"
+                                        theme: "bootstrap",
+                                        width: "auto"
+
                                     });
                                 }
                             });
@@ -262,12 +264,9 @@
                   require: 'ngModel',
                   link: function(scope, element, attrs, ngModel) {
                     ngModel.$parsers.push(function(val) {
-                        console.log("$parsers " + val);
-                        return val;//val.substr(0, 4) + '-' + val.substr(5, 2) + '-' + val.substr(8, 2);//val;
+                        return val;
                     });
                     ngModel.$formatters.push(function(val) {
-                        console.log("$formatters " + val);
-
                         if (val != null && val != "") {
                             return val.substr(8, 2) + '/' + val.substr(5, 2) + '/' + val.substr(0, 4);
                         } else {

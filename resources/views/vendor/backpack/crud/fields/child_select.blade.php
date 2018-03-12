@@ -1,11 +1,15 @@
 <!-- select2 -->
-<div clas="col-md-12">
+<div @include('crud::inc.field_wrapper_attributes')>
 
     <?php $entity_model = $crud->model; ?>
     <select
         ng-model="item.{{ $field['name'] }}"
         @include('crud::inc.field_attributes', ['default_class' =>  'form-control child_select2_field'])
         >
+            @if (isset($field['allow_null']))
+            <option value="">{{ trans('app.none')  }}</option>
+            @endif
+
             @if (isset($field['model']))
                 @foreach ($field['model']::all() as $connected_entity_entry)
                     <option value="{{ $connected_entity_entry->getKey() }}"

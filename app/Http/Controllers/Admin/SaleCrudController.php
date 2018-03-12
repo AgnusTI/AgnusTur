@@ -98,7 +98,7 @@ class SaleCrudController extends CrudController
             [
                 'name' => 'out_point',
                 'label' => trans('app.out_point'),
-                'type' => 'address',
+                'type' => 'text',
             ],
             [
                 'name' => 'separator',
@@ -123,14 +123,16 @@ class SaleCrudController extends CrudController
              'name' => 'item_id',
              'entity' => 'items',
              'attribute' => 'name',
-             'dataAttributes' => ['vl_adult', 'vl_child'],
+             'dataAttributes' => ['vl_adult', 'vl_child', 'vl_adult_expense', 'vl_child_expense'],
              'size' => '2',
              'model' => "App\Models\Item",
              'attributes' => ['convert-to-number' => '']
+
              ],
              ['label' => trans('app.dt_tour'),
               'type' => 'child_date_picker',
               'name' => 'dt_tour',
+
               'date_picker_options' => [
                     'todayBtn' => 'linked',
                     'format' => 'dd/mm/yyyy',
@@ -138,6 +140,7 @@ class SaleCrudController extends CrudController
                     'todayHighlight' => 'true',
                  ],
               'attributes' => ['convert-to-date' => ''],
+                 'wrapperAttributes' => ['style' => 'width: 110px']
               ]
         );
 
@@ -146,8 +149,8 @@ class SaleCrudController extends CrudController
                 ['label' => trans('app.hr_tour'),
                  'type' => 'child_time',
                  'name' => 'hr_tour',
-                 'size' => '1',
-                 // 'attributes' => ['convert-to-date' => ''],
+
+                    'wrapperAttributes' => ['style' => 'width: 70px']
                  ]
              );
         }
@@ -156,20 +159,21 @@ class SaleCrudController extends CrudController
             ['label' => trans('app.adults'),
              'type' => 'child_integer_number',
              'name' => 'adults',
-             'size' => '1',
+                'wrapperAttributes' => ['style' => 'width: 70px'],
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.childs'),
              'type' => 'child_integer_number',
              'name' => 'childs',
-             'size' => '1',
+                'wrapperAttributes' => ['style' => 'width: 70px'],
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.subtotal'),
              'type' => 'child_integer_number',
              'name' => 'vl_subtotal',
              //'prefix' => "$",
-             //'size' => '3',
+             //'size' => '3'
+             'size' => '1',
              'attributes' => ['convert-to-integer' => '', 'readonly' => '', 'tabindex' => '-1']
             ],
             ['label' => trans('app.discount'),
@@ -177,6 +181,7 @@ class SaleCrudController extends CrudController
              'name' => 'vl_discount',
              //'prefix' => "$",
              //'size' => '3',
+             'size' => '1',
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.percent_discount'),
@@ -184,14 +189,57 @@ class SaleCrudController extends CrudController
              'name' => 'vl_percent_discount',
              //'suffix' => "%",
              'size' => '1',
-             'attributes' => ['convert-to-float' => '']
+             'attributes' => ['convert-to-float' => '', 'tabindex' => '-1']
             ],
             ['label' => trans('app.total'),
              'type' => 'child_integer_number',
              'name' => 'vl_total',
+             'size' => '1',
              'attributes' => ['convert-to-integer' => '']
             ]
          );
+
+        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+            array_push($itemsColumns,
+
+                ['label' => trans('app.expense'),
+                    'type' => 'child_integer_number',
+                    'name' => 'vl_expense',
+                    'size' => '1',
+                    'attributes' => ['convert-to-integer' => '']
+                ],
+                ['label' => trans('app.percent_commission'),
+                    'type' => 'child_float_number',
+                    'name' => 'vl_percent_commission',
+                    //'suffix' => "%",
+                    'size' => '1',
+                    'attributes' => ['convert-to-float' => '']
+                ],
+                ['label' => trans('app.commission'),
+                    'type' => 'child_integer_number',
+                    'name' => 'vl_commission',
+                    'size' => '1',
+                    'attributes' => ['convert-to-integer' => '']
+                ],
+                ['label' => trans('app.partner'),
+                    'type' => 'child_select',
+                    'name' => 'partner_id',
+                    'entity' => 'partner',
+                    'attribute' => 'name',
+                    'size' => '2',
+                    'model' => "App\Models\Partner",
+                    'attributes' => ['convert-to-number' => ''],
+                    'allow_null' => true,
+                    'dataAttributes' => ['vl_percent_partner'],
+                ],
+                ['label' => trans('app.vl_partner'),
+                    'type' => 'child_integer_number',
+                    'name' => 'vl_partner',
+                    'size' => '1',
+                    'attributes' => ['convert-to-integer' => '']
+                ]
+            );
+        }
 
         $this->crud->addField(
             [
@@ -242,7 +290,7 @@ class SaleCrudController extends CrudController
                 'label' => trans('app.percent_discount'),
                 'type' => 'float_number',
                 //'attributes' => ["step" => "any"], // allow decimals
-                'sufix' => "%",
+                'suffix' => "%",
                 'wrapperAttributes' => [
                     'class' => 'form-group col-md-2',
                 ],
@@ -345,6 +393,7 @@ class SaleCrudController extends CrudController
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-2',
                     ],
+                    'attributes' => ['readonly' => '', 'tabindex' => '-1']
                 ],
                 [
                     'name' => 'vl_net_total',
@@ -357,15 +406,6 @@ class SaleCrudController extends CrudController
                     'attributes' => ['readonly' => '', 'tabindex' => '-1']
                 ],
                 [
-                    'name' => 'vl_percent_commission',
-                    'label' => trans('app.percent_commission'),
-                    'type' => 'float_number',
-                    'prefix' => "%",
-                    'wrapperAttributes' => [
-                        'class' => 'form-group col-md-2',
-                    ],
-                ],
-                [
                     'name' => 'vl_commission',
                     'label' => trans('app.commission'),
                     'type' => 'integer_number',
@@ -373,7 +413,19 @@ class SaleCrudController extends CrudController
                     'wrapperAttributes' => [
                         'class' => 'form-group col-md-2',
                     ],
+                    'attributes' => ['readonly' => '', 'tabindex' => '-1']
                 ],
+                [
+                    'name' => 'vl_percent_commission',
+                    'label' => trans('app.percent_commission'),
+                    'type' => 'float_number',
+                    'suffix' => "%",
+                    'wrapperAttributes' => [
+                        'class' => 'form-group col-md-2',
+                    ],
+                    'attributes' => ['readonly' => '', 'tabindex' => '-1']
+                ],
+
             ]);
         }
 

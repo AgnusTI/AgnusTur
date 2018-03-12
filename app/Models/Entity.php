@@ -50,14 +50,14 @@ class Entity extends Model
 
     const ENTITY_TYPE__CLIENT = '[CLI]';
     const ENTITY_TYPE__PROVIDER = '[PRO]';
-    const ENTITY_TYPE__THIRD = '[THI]';
+    const ENTITY_TYPE__PARTNER = '[PAR]';
     const ENTITY_TYPE__VENDOR = '[VEN]';
 
     public static function getEntitiesTypes() {
         return array(
             self::ENTITY_TYPE__CLIENT => trans('app.client'),
             self::ENTITY_TYPE__PROVIDER => trans('app.provider'),
-            self::ENTITY_TYPE__THIRD => trans('app.third'),
+            self::ENTITY_TYPE__PARTNER => trans('app.partner'),
             self::ENTITY_TYPE__VENDOR => trans('app.vendor')
         );
     }

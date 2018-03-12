@@ -18,6 +18,7 @@
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/payment') }}"><i class="fa fa-money"></i> <span>{{ trans('app.payments') }}</span></a></li>
 
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/user') }}"><i class="fa fa-key"></i> <span>{{ trans('app.user') }}</span></a></li>
+            <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/partner') }}"><i class="fa fa-user"></i> <span>{{ trans('app.partner') }}</span></a></li>
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/entity') }}"><i class="fa fa-user"></i> <span>{{ trans('app.entity') }}</span></a></li>
           @endif
 
