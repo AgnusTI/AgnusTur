@@ -66,10 +66,12 @@
                 console.log($start.val());
 
                 var $customConfig = $.extend({
-                    format: 'dd/mm/yyyy',
                     autoApply: true,
                     startDate: moment($start.val()),
-                    endDate: moment($end.val())
+                    endDate: moment($end.val()),
+                    locale: {
+                        format: 'DD/MM/YYYY'
+                    }
                 }, $fake.data('bs-daterangepicker'));
 
                 $fake.daterangepicker($customConfig);
