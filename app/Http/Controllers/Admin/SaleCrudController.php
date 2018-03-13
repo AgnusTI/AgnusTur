@@ -573,6 +573,18 @@ class SaleCrudController extends CrudController
         });
 
 
+        $this->crud->addFilter([ // select2 filter
+            'name' => 'status',
+            'type' => 'select2',
+            'label'=> trans('app.status')
+        ], function() {
+            return \App\Models\Sale::getSaleStatus();
+        }, function($value) { // if the filter is active
+            $this->crud->addClause('where', 'status', $value);
+        });
+
+
+
         $this->crud->orderBy("dt_sale");
          
     }
