@@ -14,6 +14,10 @@ Route::get('/', function () {
     return redirect('admin/home');
 });
 
+Route::get('/admin', function () {
+    return redirect('admin/home');
+});
+
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::get('home', 'Admin\HomeController@show');

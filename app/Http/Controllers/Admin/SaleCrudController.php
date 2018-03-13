@@ -203,7 +203,7 @@ class SaleCrudController extends CrudController
             ]
          );
 
-        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+        if (Auth::user()->isAdmin()) {
             array_push($itemsColumns,
 
                 ['label' => trans('app.expense'),

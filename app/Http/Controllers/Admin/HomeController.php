@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -32,15 +33,22 @@ class HomeController extends Controller
         if ($request->input('begin_date') != "" && $request->input('end_date') != "")
         {
             $q->whereBetween('sales_items.dt_tour', [$request->input('begin_date'), $request->input('end_date')]);
-        
+
+
+            if (Auth::user()->isVendor()) {
+                $q->where('sales.user_id', '=', Auth::user()->id);
+            }
 
             $items = $q
                 ->orderBy('sales_items.dt_tour')
                 ->orderBy('sales_items.hr_tour')
                 ->get();
-            
-            
-            return view("backpack::base.home.inc.sales", ['items' => $items]);
+
+            if (Auth::user()->isAdmin()) {
+                return view("backpack::base.home.inc.sales", ['items' => $items]);
+            } else {
+                return view("backpack::base.home.inc.sales_vendor", ['items' => $items]);
+            }
         }
     }
 
@@ -48,7 +56,8 @@ class HomeController extends Controller
     {
 
         $q = \App\Models\Sale::
-            select('sales.name', 
+            select('sales.name',
+                'sales.status as sale_status',
                 'hotels.name as hotel_name', 
                 'hotels.address as hotel_address', 
                 'items.name as item_name', 

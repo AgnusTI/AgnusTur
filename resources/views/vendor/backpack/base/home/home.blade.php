@@ -1,3 +1,9 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+?>
+
 @extends('backpack::layout')
 
 @section('header')
@@ -38,6 +44,7 @@
         </div>
     </div>
 
+    @if (Auth::user()->isAdmin())
     <div class="row">
         <div class="col-md-12">
             <div class="box box-default">
@@ -54,6 +61,7 @@
             </div>
         </div>
     </div>
+    @endif
 @endsection
 
 
@@ -105,8 +113,12 @@
                 $fake.on('apply.daterangepicker hide.daterangepicker', function(e, picker){
                     $start.val( picker.startDate.format('YYYY-MM-DD') );
                     $end.val( picker.endDate.format('YYYY-MM-DD') );
+
                     updateSales();
+
+                    @if (Auth::user()->isAdmin())
                     updateLogisticsReport();
+                    @endif
                 });
 
             });
@@ -114,7 +126,9 @@
             
             updateSales();
 
+            @if (Auth::user()->isAdmin())
             updateLogisticsReport();
+            @endif
 
             
         });
@@ -147,6 +161,7 @@
             });
         }
 
+        @if (Auth::user()->isAdmin())
         function updateLogisticsReport() {
 
             console.log($("#salesFilterForm").serialize());
@@ -172,5 +187,6 @@
                 }
             });
         }
+        @endif
     </script>
     @endpush

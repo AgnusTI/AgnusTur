@@ -25,7 +25,7 @@
 
           @if (Auth::user()->profile == App\Models\User::USER_PROFILE__VENDOR)
               <li class="header">{{ trans('app.vendor') }}</li>
-              <li><a href="{{ backpack_url('dashboard') }}"><i class="fas fa-home"></i> <span>{{ trans('app.home') }}</span></a></li>
+              <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/home') }}"><i class="fa fa-home"></i> <span>{{ trans('app.home') }}</span></a></li>
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale') }}"><i class="fa fa-image"></i> <span>{{ trans('app.sale') }}</span></a></li>
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/client') }}"><i class="fa fa-user"></i> <span>{{ trans('app.client') }}</span></a></li>
               <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/hotel') }}"><i class="fa fa-building"></i> <span>{{ trans('app.hotels') }}</span></a></li>
