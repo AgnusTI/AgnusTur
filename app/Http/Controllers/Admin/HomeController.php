@@ -53,18 +53,21 @@ class HomeController extends Controller
                 'hotels.address as hotel_address', 
                 'items.name as item_name', 
                 'sales_items.*',
-                'users.name as user_name'
+                'users.name as user_name',
+                'entities.name as partner_name',
+                'payments.description as payment_description'
                 )
             ->join('hotels', 'hotels.id', '=', 'sales.hotel_id', 'left outer')
             ->join('sales_items', 'sales.id', '=', 'sales_items.sale_id')
             ->join('items', 'items.id', '=', 'sales_items.item_id')
             ->join('users', 'users.id', '=', 'sales.user_id', 'left outer')
+            ->join('entities', 'entities.id', '=', 'sales_items.partner_id', 'left outer')
+            ->join('payments', 'payments.id', '=', 'sales.payment_id', 'left outer')
             ;
 
-        if ($request->input('begin_date') != "" && $request->input('end_date') != "")
-        {
+        if ($request->input('begin_date') != "" && $request->input('end_date') != "") {
             $q->whereBetween('sales_items.dt_tour', [$request->input('begin_date'), $request->input('end_date')]);
-        
+        }
 
             $items = $q
                 ->orderBy('sales_items.dt_tour')
@@ -72,7 +75,7 @@ class HomeController extends Controller
                 ->get();
             
             
-            return view("backpack::base.home.inc.sales", ['items' => $items]);
-        }
+            return view("backpack::base.home.inc.logistics_report", ['items' => $items]);
+
     }
 }

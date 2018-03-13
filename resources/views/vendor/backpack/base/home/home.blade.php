@@ -32,7 +32,24 @@
 
                     <div id="salesBox">
                     </div>
-                
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <div class="box-title">{{ trans('app.logistics_report') }}</div>
+                </div>
+
+                <div class="box-body">
+
+                    <div id="logisticsReportBox">
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -86,12 +103,15 @@
                     $start.val( picker.startDate.format('YYYY-MM-DD') );
                     $end.val( picker.endDate.format('YYYY-MM-DD') );
                     updateSales();
+                    updateLogisticsReport();
                 });
 
             });
 
             
             updateSales();
+
+            updateLogisticsReport();
 
             
         });
@@ -116,6 +136,32 @@
                                 $(this).find('td').last().html(index + 1)
                         });
                     }
+                    });
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+        }
+
+        function updateLogisticsReport() {
+
+            console.log($("#salesFilterForm").serialize());
+
+            $.ajax({
+                url: 'home/logistics_report',
+                dataType: 'text',
+                type: 'post',
+                data: $("#salesFilterForm").serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#logisticsReportBox').html( data );
+
+                    $("#logisticsReportBox tbody").sortable( {
+                        update: function( event, ui ) {
+                            $(this).children().each(function(index) {
+                                $(this).find('td').last().html(index + 1)
+                            });
+                        }
                     });
                 },
                 error: function( jqXhr, textStatus, errorThrown ){

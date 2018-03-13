@@ -98,10 +98,15 @@ return [
     'custom_range' => 'Outro',
     
     'opened' => 'Aberta',
+    'confirmed' => 'Confirmada',
     'closed' => 'Fechada',
     'canceled' => 'Cancelada',
 
     'vl_partner' => 'Valor parceiro',
     'percent_partner' => '% Parceiro',
     'none' => '-',
+    'status' => 'Situação',
+
+    'room' => 'Quarto',
+    'logistics_report' => 'Relatório de logística',
 ];

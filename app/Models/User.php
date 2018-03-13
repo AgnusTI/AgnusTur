@@ -47,4 +47,12 @@ class User extends Authenticatable
             self::USER_PROFILE__VENDOR => trans('app.vendor')
         );
     }
+
+    public function isAdmin() {
+        return $this->profile == User::USER_PROFILE__ADMIN;
+    }
+
+    public function isVendor() {
+        return $this->profile == User::USER_PROFILE__VENDOR;
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Backpack\CRUD\CrudTrait;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class Sale extends Model
@@ -104,15 +106,25 @@ class Sale extends Model
     }
 
     const SALE_STATUS__OPENED = '[OP]';
+    const SALE_STATUS__CONFIRMED = '[CO]';
     const SALE_STATUS__CLOSED = '[CL]';
     const SALE_STATUS__CANCELED = '[CA]';
 
     public static function getSaleStatus() {
         return array(
             self::SALE_STATUS__OPENED => trans('app.opened'),
+            self::SALE_STATUS__CONFIRMED => trans('app.confirmed'),
             self::SALE_STATUS__CLOSED => trans('app.closed'),
             self::SALE_STATUS__CANCELED => trans('app.canceled')
         );
+    }
+
+    public function isEditable() {
+        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+            return true;
+        } else {
+            return $this->status == Sale::SALE_STATUS__OPENED;
+        }
     }
 
 }

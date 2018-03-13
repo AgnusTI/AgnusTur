@@ -9,8 +9,10 @@ use App\Http\Requests\SaleRequest as StoreRequest;
 use App\Http\Requests\SaleRequest as UpdateRequest;
 use App\Models\Entity;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+
+use App\Models\Sale;
 
 
 class SaleCrudController extends CrudController
@@ -22,7 +24,8 @@ class SaleCrudController extends CrudController
         $this->crud->setModel('App\Models\Sale');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/sale');
         $this->crud->setEntityNameStrings(trans('app.sale'), trans('app.sales'));
-        $this->crud->enableAjaxTable();
+
+        $this->crud->setEditView('crud::sale.edit');
 
 
         /**
@@ -132,25 +135,26 @@ class SaleCrudController extends CrudController
              ['label' => trans('app.dt_tour'),
               'type' => 'child_date_picker',
               'name' => 'dt_tour',
-
               'date_picker_options' => [
                     'todayBtn' => 'linked',
                     'format' => 'dd/mm/yyyy',
                     'language' => 'pt-BR',
                     'todayHighlight' => 'true',
                  ],
-              'attributes' => ['convert-to-date' => ''],
-                 'wrapperAttributes' => ['style' => 'width: 110px']
+                 'attributes' => ['convert-to-date' => ''],
+
+
+                 'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 110px'] : []),
               ]
         );
 
-        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+        if (Auth::user()->isAdmin()) {
             array_push($itemsColumns,
                 ['label' => trans('app.hr_tour'),
                  'type' => 'child_time',
                  'name' => 'hr_tour',
 
-                    'wrapperAttributes' => ['style' => 'width: 70px']
+                    'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 70px'] : []),
                  ]
              );
         }
@@ -159,13 +163,13 @@ class SaleCrudController extends CrudController
             ['label' => trans('app.adults'),
              'type' => 'child_integer_number',
              'name' => 'adults',
-                'wrapperAttributes' => ['style' => 'width: 70px'],
+                'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 70px'] : []),
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.childs'),
              'type' => 'child_integer_number',
              'name' => 'childs',
-                'wrapperAttributes' => ['style' => 'width: 70px'],
+                'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 70px'] : []),
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.subtotal'),
@@ -253,11 +257,27 @@ class SaleCrudController extends CrudController
             ]
         );
 
+
         $this->crud->addFields([
             [
                 'name' => 'note',
                 'label' => trans('app.note'),
+                'wrapperAttributes' => ['class' => 'form-group col-md-8'],
             ],
+            [
+                'name' => 'status',
+                'label' => trans('app.status'),
+                'type' => 'select2_from_array',
+                'options' => \App\Models\Sale::getSaleStatus(),
+                'allows_null' => false,
+                'default' => \App\Models\Sale::SALE_STATUS__OPENED,
+                'wrapperAttributes' => ['class' => 'form-group col-md-4'],
+                'attributes' => (Auth::user()->isVendor() ? ['disabled' => 'true', 'tabindex' => '-1'] : []),
+            ]
+        ]);
+
+
+        $this->crud->addFields([
             [
                 'name' => 'separator2',
                 'type' => 'custom_html',
@@ -269,9 +289,7 @@ class SaleCrudController extends CrudController
                 'type' => 'integer_number',
                 //'attributes' => ["step" => "any"], // allow decimals
                 'prefix' => "$",
-                'wrapperAttributes' => [
-                    'class' => 'form-group col-md-4',
-                ],
+                'wrapperAttributes' => ['class' => 'form-group col-md-4'],
                 'attributes' => ['readonly' => '', 'tabindex' => '-1']
             ],
             [
@@ -494,6 +512,13 @@ class SaleCrudController extends CrudController
             ]);
         }
 
+        $this->crud->addColumn([
+            'name' => 'status',
+            'label' => trans('app.status'),
+            'type' => 'select_from_array',
+            'options' => Sale::getSaleStatus(),
+        ]);
+
 
         $this->crud->enableDetailsRow();
         $this->crud->allowAccess('details_row');
@@ -581,6 +606,15 @@ class SaleCrudController extends CrudController
             $request->request->set('user_id', Auth::user()->id);
         }
 
+        if (Auth::user()->profile == User::USER_PROFILE__ADMIN) {
+            if (!$request->input('status') || $request->input('status') == "") {
+                $request->request->set('status', Sale::SALE_STATUS__OPENED);
+            } else if ($request->input('status') && $request->input('status') == Sale::SALE_STATUS__OPENED) {
+                $request->request->set('status', Sale::SALE_STATUS__CONFIRMED);
+            }
+        } else if (!$request->input('status') || $request->input('status') == "") {
+            $request->request->set('status', Sale::SALE_STATUS__OPENED);
+        }
 
 
         if (!$request->input('entity_id') || $request->input('entity_id') == "") {
