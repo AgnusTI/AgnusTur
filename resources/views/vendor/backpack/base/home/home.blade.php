@@ -61,8 +61,11 @@
     
     <link rel="stylesheet" href="{{ asset('/vendor/adminlte/plugins/daterangepicker/daterangepicker.css') }}">
     <style>
+        /*
         .table-sortable tr td { cursor: move; color: #000;  }
+        */
         .table-sortable tr td { color: #000; font-size: 1.0em; font-weight: 600;  }
+
     </style>
     @endpush
 
@@ -130,13 +133,13 @@
                 success: function( data, textStatus, jQxhr ){
                     $('#salesBox').html( data );
                     
-                    $("#salesBox tbody").sortable( {
-                        update: function( event, ui ) {
-                        $(this).children().each(function(index) {
-                                $(this).find('td').last().html(index + 1)
-                        });
-                    }
-                    });
+                    // $("#salesBox tbody").sortable( {
+                    //     update: function( event, ui ) {
+                    //     $(this).children().each(function(index) {
+                    //             $(this).find('td').last().html(index + 1)
+                    //     });
+                    // }
+                    // });
                 },
                 error: function( jqXhr, textStatus, errorThrown ){
                     console.log( errorThrown );
@@ -156,13 +159,13 @@
                 success: function( data, textStatus, jQxhr ){
                     $('#logisticsReportBox').html( data );
 
-                    $("#logisticsReportBox tbody").sortable( {
-                        update: function( event, ui ) {
-                            $(this).children().each(function(index) {
-                                $(this).find('td').last().html(index + 1)
-                            });
-                        }
-                    });
+                    // $("#logisticsReportBox tbody").sortable( {
+                    //     update: function( event, ui ) {
+                    //         $(this).children().each(function(index) {
+                    //             $(this).find('td').last().html(index + 1)
+                    //         });
+                    //     }
+                    // });
                 },
                 error: function( jqXhr, textStatus, errorThrown ){
                     console.log( errorThrown );

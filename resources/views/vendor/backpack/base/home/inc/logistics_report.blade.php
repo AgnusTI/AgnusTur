@@ -15,6 +15,7 @@
             <th>{{ trans('app.rest') }}</th>
             <th>{{ trans('app.payment') }}</th>
             <th>{{ trans('app.partner') }}</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -42,6 +43,7 @@
         <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_rest, 0, ',', '.') }}</td>
         <td>{{ $e->payment_description }}</td>
         <td>{{ $e->partner_name }}</td>
+        <td><a href="/admin/sale/{{ $e->sale_id }}/edit" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-edit"></i>{{ trans('backpack::crud.edit')  }}</a></td>
     </tr>
 
         @php
@@ -60,6 +62,7 @@
             <th class="text-right">{{ $adults }}</th>
             <th class="text-right">{{ $childs }}</th>
             <th class="text-right">{{ $childs + $adults }}</th>
+            <th></th>
             <th></th>
             <th></th>
             <th></th>
