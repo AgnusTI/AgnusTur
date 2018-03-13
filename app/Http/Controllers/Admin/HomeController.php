@@ -14,6 +14,8 @@ class HomeController extends Controller
         return view("backpack::base.home.home");
     }
 
+
+
     public function sales(Request $request)
     {
 
@@ -86,5 +88,16 @@ class HomeController extends Controller
             
             return view("backpack::base.home.inc.logistics_report", ['items' => $items]);
 
+    }
+
+    public static function salesCountByStatus($status) {
+
+        $q = \App\Models\Sale::where('status', '=', $status);
+
+        if (Auth::user()->isVendor()) {
+            $q->where('sales.user_id', '=', Auth::user()->id);
+        }
+
+        return $q->count();
     }
 }

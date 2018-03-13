@@ -72,6 +72,8 @@
         .table_row_slider .row label { font-weight: normal;}
         .table_row_slider .row span { padding-left: 10px; font-weight: bold;}
 
+        .box {border-top: 3px solid #d2d6de; }
+
 
         @media screen and (max-width: 1024px) {
             body { font-size: 12px; }

@@ -32,7 +32,8 @@ return [
 
     'sale' => 'Venda',
     'sales' => 'Vendas',
-    'create_sale' => 'iniciar uma nova venda',
+    'create_sale' => 'Iniciar uma nova venda',
+    'manage_sales' => 'Gerenciar vendas',
 
     'client' => 'Cliente',
     'clients' => 'Clientes',
@@ -109,4 +110,10 @@ return [
 
     'room' => 'Quarto',
     'logistics_report' => 'Relatório de logística',
+    'control_panel' => 'Painel de controle',
+
+    'opened_sales' => 'Vendas abertas',
+    'confirmed_sales' => 'Vendas confirmadas',
+    'canceled_sales' => 'Vendas canceladas',
+    'closed_sales' => 'Vendas encerradas',
 ];

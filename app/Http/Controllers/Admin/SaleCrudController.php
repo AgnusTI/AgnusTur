@@ -584,7 +584,6 @@ class SaleCrudController extends CrudController
         });
 
 
-
         $this->crud->orderBy("dt_sale");
          
     }

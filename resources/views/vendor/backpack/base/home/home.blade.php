@@ -7,17 +7,97 @@ use Illuminate\Support\Facades\Auth;
 @extends('backpack::layout')
 
 @section('header')
-   
+    <section class="content-header">
+        <h1>
+            {{ trans('app.home') }}
+            <small>{{ trans('app.control_panel')  }}</small>
+        </h1>
+
+    </section>
+
 @endsection
 
 
 @section('content')
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ \App\Http\Controllers\Admin\HomeController::salesCountByStatus(\App\Models\Sale::SALE_STATUS__OPENED) }}</h3>
+
+                    <p>{{ trans('app.opened_sales')  }}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale')  }}" class="small-box-footer">{{ trans('app.manage_sales')  }} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ \App\Http\Controllers\Admin\HomeController::salesCountByStatus(\App\Models\Sale::SALE_STATUS__CONFIRMED) }}</h3>
+
+                    <p>{{ trans('app.confirmed_sales')  }}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale')  }}" class="small-box-footer">{{ trans('app.manage_sales')  }} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ \App\Http\Controllers\Admin\HomeController::salesCountByStatus(\App\Models\Sale::SALE_STATUS__CANCELED) }}</h3>
+
+                    <p>{{ trans('app.canceled_sales')  }}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale')  }}" class="small-box-footer">{{ trans('app.manage_sales')  }} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-teal">
+                <div class="inner">
+                    <h3>{{ \App\Http\Controllers\Admin\HomeController::salesCountByStatus(\App\Models\Sale::SALE_STATUS__CLOSED) }}</h3>
+
+                    <p>{{ trans('app.closed_sales')  }}</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale')  }}" class="small-box-footer">{{ trans('app.manage_sales')  }} <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+    </div>
+
+
+
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box box-info">
                 <div class="box-header with-border">
-                    <div class="box-title">{{ trans('app.items') }}</div>
+                    <h3 class="box-title">{{ trans('app.items') }}</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
+
 
                 <div class="box-body">
                     <form id="salesFilterForm">
@@ -40,6 +120,11 @@ use Illuminate\Support\Facades\Auth;
                     </div>
 
                 </div>
+
+                <div class="box-footer clearfix">
+                    <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale/create') }}" class="btn btn-primary btn-flat pull-left"><i class="fa fa-plus"></i> {{ trans('app.create_sale') }}</a>
+                    <a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale') }}" class="btn btn-default btn-flat pull-right">{{ trans('app.manage_sales') }}</a>
+                </div>
             </div>
         </div>
     </div>
@@ -47,10 +132,17 @@ use Illuminate\Support\Facades\Auth;
     @if (Auth::user()->isAdmin())
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box box-danger">
                 <div class="box-header with-border">
-                    <div class="box-title">{{ trans('app.logistics_report') }}</div>
+                    <h3 class="box-title">{{ trans('app.logistics_report') }}</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
+
 
                 <div class="box-body">
 
