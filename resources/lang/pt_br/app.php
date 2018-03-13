@@ -116,4 +116,6 @@ return [
     'confirmed_sales' => 'Vendas confirmadas',
     'canceled_sales' => 'Vendas canceladas',
     'closed_sales' => 'Vendas encerradas',
+    'vendor_sales' => 'Vendas por vendedor',
+    'total_sales' => 'Total vendido',
 ];

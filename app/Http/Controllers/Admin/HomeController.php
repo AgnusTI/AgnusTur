@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -89,6 +90,38 @@ class HomeController extends Controller
             
             return view("backpack::base.home.inc.logistics_report", ['items' => $items]);
 
+    }
+
+    public static function salesByStatus($status) {
+        $q = \App\Models\Sale::
+            select('sales.name',
+                'items.name as item_name',
+                'sales_items.*',
+                'users.name as user_name'
+            )
+            ->join('sales_items', 'sales.id', '=', 'sales_items.sale_id')
+            ->join('items', 'items.id', '=', 'sales_items.item_id')
+            ->join('users', 'users.id', '=', 'sales.user_id', 'left outer')
+            ->where('sales.status', '=', $status)
+            ->orderBy('sales_items.dt_tour')
+        ;
+
+        return $q->get();
+    }
+
+    public static function vendorSales() {
+        $q = \App\Models\Sale::
+            select(DB::raw('users.name as user_name, sum(sales.vl_total) as vl_total'))
+            ->join('users', 'users.id', '=', 'sales.user_id', 'left outer')
+            ->groupBy('users.name')
+            ->orderBy('users.name')
+        ;
+
+        return $q->get();
+    }
+
+    public static function totalSales() {
+        return \App\Models\Sale::sum('vl_total');
     }
 
     public static function salesCountByStatus($status) {

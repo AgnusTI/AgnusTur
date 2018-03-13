@@ -87,7 +87,7 @@ use Illuminate\Support\Facades\Auth;
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-info">
+            <div class="box box-success">
                 <div class="box-header with-border">
                     <h3 class="box-title">{{ trans('app.items') }}</h3>
 
@@ -130,6 +130,10 @@ use Illuminate\Support\Facades\Auth;
     </div>
 
     @if (Auth::user()->isAdmin())
+
+
+
+
     <div class="row">
         <div class="col-md-12">
             <div class="box box-danger">
@@ -153,6 +157,57 @@ use Illuminate\Support\Facades\Auth;
             </div>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ trans('app.opened_sales')  }}</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+
+                </div>
+                <div class="box-body">
+
+                    @include('backpack::home.inc.opened_sales')
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="box box-success">
+                <div class="box-header with-border">
+                    <h3 class="box-title">{{ trans('app.vendor_sales')  }}</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+
+                    @include('backpack::home.inc.vendor_sales')
+
+
+                </div>
+
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+
     @endif
 @endsection
 
