@@ -34,7 +34,6 @@
             <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_rest, 0, ',', '.') }}</td>
             <td>{{ $e->user_name }}</td>
             <td>{{ isset($e->sale_status) ? \App\Models\Sale::getSaleStatus()[$e->sale_status] : "" }}</td>
-
         </tr>
 
         @php
@@ -53,16 +52,10 @@
         <th></th>
         <th class="text-right">{{ $adults }}</th>
         <th class="text-right">{{ $childs }}</th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
         <th></th>
-        <th class="text-right"></th>
-        <th class="text-right"></th>
+        <th></th>
+        <th></th>
+        <th></th>
     </tr>
     </tfoot>
 </table>

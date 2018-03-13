@@ -20,7 +20,8 @@ class HomeController extends Controller
     {
 
         $q = \App\Models\Sale::
-            select('sales.name', 
+            select('sales.name',
+                'sales.status as sale_status',
                 'hotels.name as hotel_name', 
                 'hotels.address as hotel_address', 
                 'items.name as item_name', 
