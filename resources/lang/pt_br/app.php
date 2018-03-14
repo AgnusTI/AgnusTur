@@ -118,4 +118,5 @@ return [
     'closed_sales' => 'Vendas encerradas',
     'vendor_sales' => 'Vendas por vendedor',
     'total_sales' => 'Total vendido',
+
 ];

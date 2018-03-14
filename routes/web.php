@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('home', 'Admin\HomeController@show');
     Route::post('home/sales', 'Admin\HomeController@sales');
     Route::post('home/logistics_report', 'Admin\HomeController@logisticsReport');
+    Route::post('home/vendor_sales', 'Admin\HomeController@vendorSales');
     Route::get('home/logistics_report', 'Admin\HomeController@logisticsReport');
     
     CRUD::resource('hotel', 'Admin\HotelCrudController');

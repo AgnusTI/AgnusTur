@@ -584,8 +584,18 @@ class SaleCrudController extends CrudController
         });
 
 
+
+
+
         $this->crud->orderBy("dt_sale");
-         
+
+
+
+        $this->crud->removeButton('update');
+        $this->crud->removeButton('delete');
+        $this->crud->addButton('line', 'update', 'view', 'crud::buttons.sale_update', 'end');
+        $this->crud->addButton('line', 'delete', 'view', 'crud::buttons.sale_delete', 'end');
+
     }
 
     public function store(StoreRequest $request)
@@ -644,6 +654,8 @@ class SaleCrudController extends CrudController
         $this->client->out_point = $request->input('out_point');
         $this->client->save();
 
+
+
         $request->request->set('entity_id', $this->client->id);
     }
 
@@ -662,9 +674,21 @@ class SaleCrudController extends CrudController
         return view('crud::sale_details_row', $this->data);
     }
 
+    public function hasAccess($permission)
+    {
+        if (! in_array($permission, $this->access)) {
+            return false;
+        }
 
 
+        if (Auth::user()->isVendor()) {
+            if ($permission == 'edit' || $permission == 'delete') {
+                if ($this->entry->status != Sale::SALE_STATUS__OPENED) {
+                    return false;
+                }
+            }
+        }
 
-    
-
+        return true;
+    }
 }

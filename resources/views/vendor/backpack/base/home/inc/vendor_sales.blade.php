@@ -1,17 +1,10 @@
 @php
+    $totalSales = 0.00;
 
-    use \App\Http\Controllers\Admin\HomeController;
-    use \App\Models\Sale;
-
-    $totalSales = HomeController::totalSales();
-
-    $items = HomeController::vendorSales();
-
+    foreach ($items as $e) {
+        $totalSales += $e->vl_total;
+    }
 @endphp
-
-<p class="text-right">
-    <strong>{{ trans('app.total_sales')  }}: $ {{ number_format($totalSales, 0, ',', '.') }}</strong>
-</p>
 
 @foreach ($items as $e)
 
@@ -31,3 +24,8 @@
     </div>
 
 @endforeach
+
+
+<p class="text-right">
+    <strong>{{ trans('app.total_sales')  }}: $ {{ number_format($totalSales, 0, ',', '.') }}</strong>
+</p>

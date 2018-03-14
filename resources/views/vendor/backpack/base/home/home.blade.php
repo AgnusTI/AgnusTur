@@ -101,18 +101,18 @@ use Illuminate\Support\Facades\Auth;
 
                 <div class="box-body">
                     <form id="salesFilterForm">
-                    <div class="form-group col-md-4">
-                        <input class="datepicker-range-start" type="hidden" id="begin_date" name="begin_date" value="{{ (new \DateTime())->format('Y-m-d') }} " >
-                        <input class="datepicker-range-end" type="hidden" id="end_date" name="end_date" value="{{ (new \DateTime())->format('Y-m-d') }} ">
-                        <label>{{ trans('app.dt_tour') }}</label>
-                        <div class="input-group date">
-                            <input type="text" data-bs-daterangepicker="{}" class="form-control">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                        <div class="form-group col-md-4">
+                            <input class="datepicker-range-start" type="hidden" id="begin_date" name="begin_date" value="{{ (new \DateTime())->format('Y-m-d') }} " >
+                            <input class="datepicker-range-end" type="hidden" id="end_date" name="end_date" value="{{ (new \DateTime())->format('Y-m-d') }} ">
+                            <label>{{ trans('app.dt_tour') }}</label>
+                            <div class="input-group date">
+                                <input type="text" data-bs-daterangepicker="{}" class="form-control" id="salesDtFilter">
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </div>
                             </div>
+
                         </div>
-                       
-                    </div>
                     </form>
 
 
@@ -196,7 +196,24 @@ use Illuminate\Support\Facades\Auth;
                 <!-- /.box-header -->
                 <div class="box-body">
 
-                    @include('backpack::home.inc.vendor_sales')
+                    <form id="vendorSalesFilterForm">
+                        <div class="form-group col-md-12">
+
+                                <input class="datepicker-range-start" type="hidden" id="begin_date" name="begin_date" value="{{ (new \DateTime())->format('Y-m-d') }} " >
+                                <input class="datepicker-range-end" type="hidden" id="end_date" name="end_date" value="{{ (new \DateTime())->format('Y-m-d') }} ">
+                                <label>{{ trans('app.dt_sale') }}</label>
+                                <div class="input-group date">
+                                    <input type="text" data-bs-daterangepicker="{}" class="form-control" id="vendorSalesDtFilter">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+
+
+                        </div>
+                    </form>
+
+                    <div id="vendorSalesBox"></div>
 
 
                 </div>
@@ -257,17 +274,33 @@ use Illuminate\Support\Facades\Auth;
                     return false;
                 });
 
-                $fake.on('apply.daterangepicker hide.daterangepicker', function(e, picker){
-                    $start.val( picker.startDate.format('YYYY-MM-DD') );
-                    $end.val( picker.endDate.format('YYYY-MM-DD') );
+                console.log($(this).attr("id"));
 
-                    updateSales();
+                if ($(this).attr("id") == "salesDtFilter") {
 
-                    @if (Auth::user()->isAdmin())
-                    updateLogisticsReport();
-                    @endif
-                });
+                    $fake.on('apply.daterangepicker hide.daterangepicker', function (e, picker) {
+                        $start.val(picker.startDate.format('YYYY-MM-DD'));
+                        $end.val(picker.endDate.format('YYYY-MM-DD'));
 
+                        updateSales();
+
+                        @if (Auth::user()->isAdmin())
+                        updateLogisticsReport();
+                        @endif
+                    });
+                }
+
+                @if (Auth::user()->isAdmin())
+                    if ($(this).attr("id") == "vendorSalesDtFilter") {
+
+                        $fake.on('apply.daterangepicker hide.daterangepicker', function (e, picker) {
+                            $start.val(picker.startDate.format('YYYY-MM-DD'));
+                            $end.val(picker.endDate.format('YYYY-MM-DD'));
+
+                            updateVendorSales();
+                        });
+                    }
+                @endif
             });
 
             
@@ -275,6 +308,7 @@ use Illuminate\Support\Facades\Auth;
 
             @if (Auth::user()->isAdmin())
             updateLogisticsReport();
+            updateVendorSales();
             @endif
 
             
@@ -320,6 +354,30 @@ use Illuminate\Support\Facades\Auth;
                 data: $("#salesFilterForm").serialize(),
                 success: function( data, textStatus, jQxhr ){
                     $('#logisticsReportBox').html( data );
+
+                    // $("#logisticsReportBox tbody").sortable( {
+                    //     update: function( event, ui ) {
+                    //         $(this).children().each(function(index) {
+                    //             $(this).find('td').last().html(index + 1)
+                    //         });
+                    //     }
+                    // });
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    console.log( errorThrown );
+                }
+            });
+        }
+        function updateVendorSales() {
+            console.log($("#vendorSalesFilterForm").serialize());
+
+            $.ajax({
+                url: 'home/vendor_sales',
+                dataType: 'text',
+                type: 'post',
+                data: $("#vendorSalesFilterForm").serialize(),
+                success: function( data, textStatus, jQxhr ){
+                    $('#vendorSalesBox').html( data );
 
                     // $("#logisticsReportBox tbody").sortable( {
                     //     update: function( event, ui ) {

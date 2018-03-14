@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use \App\Models\Sale;
 
 class HomeController extends Controller
 {
@@ -109,15 +110,24 @@ class HomeController extends Controller
         return $q->get();
     }
 
-    public static function vendorSales() {
-        $q = \App\Models\Sale::
+    public static function vendorSales(Request $request) {
+
+        $q = Sale::
             select(DB::raw('users.name as user_name, sum(sales.vl_total) as vl_total'))
             ->join('users', 'users.id', '=', 'sales.user_id', 'left outer')
-            ->groupBy('users.name')
-            ->orderBy('users.name')
         ;
 
-        return $q->get();
+        if ($request->input('begin_date') != "" && $request->input('end_date') != "") {
+            $q->whereBetween('sales.dt_sale', [$request->input('begin_date'), $request->input('end_date')]);
+        }
+
+        $q->groupBy('users.name')
+            ->orderBy('vl_total', 'desc');
+
+        $items = $q->get();
+
+
+        return view("backpack::base.home.inc.vendor_sales", ['items' => $items]);
     }
 
     public static function totalSales() {

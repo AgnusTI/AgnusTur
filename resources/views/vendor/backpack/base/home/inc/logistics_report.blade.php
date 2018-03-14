@@ -52,7 +52,6 @@
             $qtd += 1;
             $adults += $e->adults;
             $childs += $e->childs;
-
         @endphp
     @endforeach
     </tbody>
