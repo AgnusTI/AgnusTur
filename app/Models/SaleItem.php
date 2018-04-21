@@ -20,6 +20,10 @@ class SaleItem extends Model
         return $this->hasOne('App\Models\Item', 'id', 'item_id');
     }
 
+    public function partner() {
+        return $this->hasOne('App\Models\Partner', 'id', 'partner_id');
+    }
+
     public function setDtTourAttribute($value) {
         
         if (substr($value, 2, 1) == "/") {

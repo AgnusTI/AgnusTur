@@ -7,7 +7,7 @@
             <th>{{ trans('app.adults') }}</th>
             <th>{{ trans('app.childs') }}</th>
             <th>{{ trans('app.client') }}</th>
-            <th>{{ trans('app.out_point') }}</th>
+
             <th>{{ trans('app.hotel') }}</th>
             <th>{{ trans('app.room') }}</th>
             <th>{{ trans('app.item') }}</th>
@@ -36,7 +36,7 @@
         <td class="text-right">{{ $e->adults }}</td>
         <td class="text-right">{{ $e->childs }}</td>
         <td>{{ $e->name }}</td>
-        <td>{{ $e->out_point }}</td>
+
         <td>{{ $e->hotel_name . ' (' . $e->hotel_address . ')' }}</td>
         <td>{{ $e->room_number }}</td>
         <td>{{ $e->item_name }}</td>
@@ -64,7 +64,7 @@
             <th class="text-right">{{ $childs }}</th>
             <th class="text-right">{{ $childs + $adults }}</th>
             <th></th>
-            <th></th>
+
             <th></th>
             <th></th>
             <th></th>

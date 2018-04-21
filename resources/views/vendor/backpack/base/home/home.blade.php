@@ -102,8 +102,8 @@ use Illuminate\Support\Facades\Auth;
                 <div class="box-body">
                     <form id="salesFilterForm">
                         <div class="form-group col-md-4">
-                            <input class="datepicker-range-start" type="hidden" id="begin_date" name="begin_date" value="{{ (new \DateTime())->format('Y-m-d') }} " >
-                            <input class="datepicker-range-end" type="hidden" id="end_date" name="end_date" value="{{ (new \DateTime())->format('Y-m-d') }} ">
+                            <input class="datepicker-range-start" type="hidden" id="begin_date" name="begin_date" value="{{ (new \DateTime())->format('Y-m-d') }}" >
+                            <input class="datepicker-range-end" type="hidden" id="end_date" name="end_date" value="{{ (new \DateTime())->format('Y-m-d') }}">
                             <label>{{ trans('app.dt_tour') }}</label>
                             <div class="input-group date">
                                 <input type="text" data-bs-daterangepicker="{}" class="form-control" id="salesDtFilter">

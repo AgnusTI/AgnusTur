@@ -1,5 +1,32 @@
 @extends('crud::fields.child')
 
+@push('crud_fields_styles')
+
+    <style>
+        @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
+        @media screen and (max-width: 1600px) {
+            .form-group.child-table-container .table-wrapper {
+                overflow-x: scroll;
+            }
+
+            .form-group.child-table-container table {
+                min-width: 1500px;
+            }
+        }
+        @else
+        @media screen and (max-width: 1230px) {
+            .form-group.child-table-container .table-wrapper {
+                overflow-x: scroll;
+            }
+
+            .form-group.child-table-container table {
+                min-width: 1000px;
+            }
+        }
+        @endif
+    </style>
+@endpush
+
 @push('child_after_scripts')
 
 <script>

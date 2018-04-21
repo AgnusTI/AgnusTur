@@ -142,9 +142,9 @@ class SaleCrudController extends CrudController
                     'todayHighlight' => 'true',
                  ],
                  'attributes' => ['convert-to-date' => ''],
+//               'size' => '2',
 
-
-                 'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 110px'] : []),
+               'wrapperAttributes' => (Auth::user()->isAdmin() ? ['style' => 'width: 110px'] : []),
               ]
         );
 
@@ -158,6 +158,8 @@ class SaleCrudController extends CrudController
                  ]
              );
         }
+
+        $numberSize = (Auth::user()->isAdmin() ? '1' : '2');
 
         array_push($itemsColumns,
             ['label' => trans('app.adults'),
@@ -177,7 +179,7 @@ class SaleCrudController extends CrudController
              'name' => 'vl_subtotal',
              //'prefix' => "$",
              //'size' => '3'
-             'size' => '1',
+             'size' => $numberSize,
              'attributes' => ['convert-to-integer' => '', 'readonly' => '', 'tabindex' => '-1']
             ],
             ['label' => trans('app.discount'),
@@ -185,20 +187,20 @@ class SaleCrudController extends CrudController
              'name' => 'vl_discount',
              //'prefix' => "$",
              //'size' => '3',
-             'size' => '1',
+             //'size' => '1',
              'attributes' => ['convert-to-integer' => '']
             ],
             ['label' => trans('app.percent_discount'),
              'type' => 'child_float_number',
              'name' => 'vl_percent_discount',
              //'suffix' => "%",
-             'size' => '1',
+             //'size' => '1',
              'attributes' => ['convert-to-float' => '', 'tabindex' => '-1']
             ],
             ['label' => trans('app.total'),
              'type' => 'child_integer_number',
              'name' => 'vl_total',
-             'size' => '1',
+             'size' => $numberSize,
              'attributes' => ['convert-to-integer' => '']
             ]
          );

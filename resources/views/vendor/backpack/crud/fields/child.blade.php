@@ -41,67 +41,68 @@
     <input class="array-json" type="hidden" id="{{ $field['name'] }}" name="{{ $field['name'] }}">
 
     <div class="array-container form-group child-table-container" >
-
-        <table
-            id="{{ $field['name'] }}"
-            class="table table-bordered table-striped m-b-0"
-
-
-
-            ng-init="field = '#{{ $field['name'] }}'; items = {{ $items }}; max = {{$max}}; min = {{$min}}; maxErrorTitle = '{{trans('backpack::crud.table_cant_add', ['entity' => $item_name])}}'; maxErrorMessage = '{{trans('backpack::crud.table_max_reached', ['max' => $max])}}'"
-            >
-
-            <thead>
-                <tr>
-                    @foreach( $field['columns'] as $column )
-                        <th
-                            style="font-weight: 600!important;"
-                            class="@if ($column['type'] == 'child_hidden') hidden @endif ">
-                            {{ $column['label'] }}
-                        </th>
-                    @endforeach
-                    <th class="text-center" ng-if="max == -1 || max > 1"> {{-- <i class="fa fa-sort"></i> --}} </th>
-                    <th class="text-center" ng-if="max == -1 || max > 1"> {{-- <i class="fa fa-trash"></i> --}} </th>
-                </tr>
-            </thead>
-
-            <tbody ui-sortable="sortableOptions" ng-model="items" class="table-striped">
-
-                <tr post-render ng-repeat="item in items" class="array-row" >
+        <div class="table-wrapper">
+            <table
+                id="{{ $field['name'] }}"
+                class="table table-bordered table-striped m-b-0"
 
 
-                    @foreach ($field['columns'] as $column)
-                        <td
-                             class="
-                                @if(isset($column['size']))
-                                    col-md-{{ $column['size'] }}
-                                @endif
-                                @if ($column['type'] == 'child_hidden')
-                                    hidden
-                                @endif
-                                "
-                            >
 
-                        @if(view()->exists('vendor.backpack.crud.fields.'.$column['type']))
-                            @include('vendor.backpack.crud.fields.'.$column['type'], array('field' => $column))
-                        @else
-                            @include('crud::fields.'.$column['type'], array('field' => $column))
-                        @endif
+                ng-init="field = '#{{ $field['name'] }}'; items = {{ $items }}; max = {{$max}}; min = {{$min}}; maxErrorTitle = '{{trans('backpack::crud.table_cant_add', ['entity' => $item_name])}}'; maxErrorMessage = '{{trans('backpack::crud.table_max_reached', ['max' => $max])}}'"
+                >
+
+                <thead>
+                    <tr>
+                        @foreach( $field['columns'] as $column )
+                            <th
+                                style="font-weight: 600!important;"
+                                class="@if ($column['type'] == 'child_hidden') hidden @endif ">
+                                {{ $column['label'] }}
+                            </th>
+                        @endforeach
+                        <th class="text-center" ng-if="max == -1 || max > 1"> {{-- <i class="fa fa-sort"></i> --}} </th>
+                        <th class="text-center" ng-if="max == -1 || max > 1"> {{-- <i class="fa fa-trash"></i> --}} </th>
+                    </tr>
+                </thead>
+
+                <tbody ui-sortable="sortableOptions" ng-model="items" class="table-striped">
+
+                    <tr post-render ng-repeat="item in items" class="array-row" >
+
+
+                        @foreach ($field['columns'] as $column)
+                            <td
+                                 class="
+                                    @if(isset($column['size']))
+                                        col-md-{{ $column['size'] }}
+                                    @endif
+                                    @if ($column['type'] == 'child_hidden')
+                                        hidden
+                                    @endif
+                                    "
+                                >
+
+                            @if(view()->exists('vendor.backpack.crud.fields.'.$column['type']))
+                                @include('vendor.backpack.crud.fields.'.$column['type'], array('field' => $column))
+                            @else
+                                @include('crud::fields.'.$column['type'], array('field' => $column))
+                            @endif
+                            </td>
+                        @endforeach
+
+
+                        <td ng-if="max == -1 || max > 1">
+                            <button ng-hide="min > -1 && $index < min" class="btn btn-sm btn-danger" type="button" ng-click="removeItem(item);"><span class="sr-only">delete item</span><i class="fa fa-trash" role="presentation" aria-hidden="true"></i></button>
                         </td>
-                    @endforeach
+                        <td ng-if="max == -1 || max > 1">
+                            <span class="btn btn-sm btn-default sort-handle"><span class="sr-only">sort item</span><i class="fa fa-sort" role="presentation" aria-hidden="true"></i></span>
+                        </td>
+                    </tr>
 
+                </tbody>
 
-                    <td ng-if="max == -1 || max > 1">
-                        <button ng-hide="min > -1 && $index < min" class="btn btn-sm btn-danger" type="button" ng-click="removeItem(item);"><span class="sr-only">delete item</span><i class="fa fa-trash" role="presentation" aria-hidden="true"></i></button>
-                    </td>
-                    <td ng-if="max == -1 || max > 1">
-                        <span class="btn btn-sm btn-default sort-handle"><span class="sr-only">sort item</span><i class="fa fa-sort" role="presentation" aria-hidden="true"></i></span>
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
+            </table>
+        </div>
 
         <div class="array-controls btn-group m-t-10">
             <button ng-if="max == -1 || items.length < max" class="btn btn-primary" type="button" ng-click="addItem()"><i class="fa fa-plus"></i> {{ trans('app.add') }} {{ $item_name }}</button>

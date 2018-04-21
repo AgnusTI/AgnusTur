@@ -72,7 +72,18 @@
         .table_row_slider .row label { font-weight: normal;}
         .table_row_slider .row span { padding-left: 10px; font-weight: bold;}
 
+
         .box {border-top: 3px solid #d2d6de; }
+
+        .sale-detail-row label {
+            text-align: right;
+        }
+        .sale-detail-row span {
+            padding: 0 !important;
+        }
+        .sale-detail-row h3 {
+            color: #333;
+        }
 
 
         @media screen and (max-width: 1024px) {
