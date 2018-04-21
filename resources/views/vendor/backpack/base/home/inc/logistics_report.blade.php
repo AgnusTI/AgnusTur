@@ -45,7 +45,9 @@
         <td>{{ $e->payment_description }}</td>
         <td>{{ $e->partner_name }}</td>
         <td>{{ isset($e->sale_status) ? \App\Models\Sale::getSaleStatus()[$e->sale_status] : "" }}</td>
-        <td><a href="/admin/sale/{{ $e->sale_id }}/edit" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-edit"></i>{{ trans('backpack::crud.edit')  }}</a></td>
+        <td>
+            <a href="/admin/sale/{{ $e->sale_id }}/edit" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-edit"></i>{{ trans('backpack::crud.edit')  }}</a>
+        </td>
     </tr>
 
         @php

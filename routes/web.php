@@ -22,9 +22,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
 
     Route::get('home', 'Admin\HomeController@show');
     Route::post('home/sales', 'Admin\HomeController@sales');
-    Route::post('home/logistics_report', 'Admin\HomeController@logisticsReport');
+    Route::post('home/logistics', 'Admin\HomeController@logisticsReport');
     Route::post('home/vendor_sales', 'Admin\HomeController@vendorSales');
-    Route::get('home/logistics_report', 'Admin\HomeController@logisticsReport');
+    Route::get('home/logistics', 'Admin\HomeController@logisticsReport');
+
+    Route::get('reports/logistics', 'Reports\LogisticsReportController@content');
+    Route::get('reports/logistics/item', 'Reports\LogisticsReportController@item');
+    Route::post('reports/logistics', 'Reports\LogisticsReportController@item');
+    Route::post('reports/logistics/update', 'Reports\LogisticsReportController@update');
     
     CRUD::resource('hotel', 'Admin\HotelCrudController');
     Route::get('entity/ajax-client-options', 'Admin\EntityCrudController@clientOptions');

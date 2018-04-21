@@ -42,7 +42,7 @@
         <div class="col-md-12">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <div class="box-title">{{ trans('app.logistics_report') }}</div>
+                    <div class="box-title">{{ trans('logistics') }}</div>
                 </div>
 
                 <div class="box-body">
@@ -152,7 +152,7 @@
             console.log($("#salesFilterForm").serialize());
 
             $.ajax({
-                url: 'home/logistics_report',
+                url: 'home/logistics',
                 dataType: 'text',
                 type: 'post',
                 data: $("#salesFilterForm").serialize(),

@@ -17,7 +17,6 @@ class HomeController extends Controller
     }
 
 
-
     public function sales(Request $request)
     {
 
@@ -89,7 +88,7 @@ class HomeController extends Controller
                 ->get();
             
             
-            return view("backpack::base.home.inc.logistics_report", ['items' => $items]);
+            return view("backpack::base.home.inc.logistics", ['items' => $items]);
 
     }
 

@@ -109,7 +109,7 @@ return [
     'status' => 'Situação',
 
     'room' => 'Quarto',
-    'logistics_report' => 'Relatório de logística',
+    'logistics' => 'Relatório de logística',
     'control_panel' => 'Painel de controle',
 
     'opened_sales' => 'Vendas abertas',
@@ -120,4 +120,5 @@ return [
     'total_sales' => 'Total vendido',
     'registers' => 'Cadastros',
     'reports' => 'Relatórios',
+    'open' => 'Abrir',
 ];
