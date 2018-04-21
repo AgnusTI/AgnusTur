@@ -41,7 +41,7 @@
             </td>
             <td>{{ Date::parse($e->dt_tour)->format(config('backpack.base.default_date_format'))  }}</td>
             <td>{{ $e->user_name }}</td>
-            <td>{{ Date::parse($e->hr_tour)->format('H:i') }}</td>
+            <td>{{ Date::parse("0000-00-00 " . $e->hr_tour)->format('H:i') }}</td>
             <td class="text-right">{{ $e->adults }}</td>
             <td class="text-right">{{ $e->childs }}</td>
             <td>{{ $e->name }}</td>
