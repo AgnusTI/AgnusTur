@@ -269,6 +269,14 @@
 
                     if (data == 'ok') {
                         updateLogisticsReport();
+
+
+                        new PNotify({
+                            // title: 'Regular Notice',
+                            text: "Motorista e guia alterados com sucesso",
+                            type: "success",
+                            icon: false
+                        });
                     }
 
                 },
@@ -326,6 +334,13 @@
                     if (data == "ok") {
                         updateLogisticsReport();
                         $("#editSaleItem").modal('hide');
+
+                        new PNotify({
+                            // title: 'Regular Notice',
+                            text: "Passeio alterado com sucesso",
+                            type: "success",
+                            icon: false
+                        });
                     } else {
 
                     }

@@ -19,9 +19,9 @@
             $qtd = 0;
         @endphp
 
-        <div class="box box-success">
+        <div class="box box-success box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ $e->item_name }}</h3>
+                <h3 class="box-title"><b>{{ $e->item_name }}</b></h3>
             </div>
             <div class="box-body">
                 <table class="table table-striped table-sortable table-bordered">
