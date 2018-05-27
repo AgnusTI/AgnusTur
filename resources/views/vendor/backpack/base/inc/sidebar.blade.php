@@ -20,6 +20,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/reports/logistics') }}"><i class="fa fa-circle-o"></i> <span>{{ trans('app.logistics') }}</span></a></li>
+                            <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/reports/partner_tour') }}"><i class="fa fa-circle-o"></i> <span>Passeios por parceiro</span></a></li>
                         </ul>
                     </li>
 

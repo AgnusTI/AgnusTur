@@ -31,6 +31,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::post('reports/logistics', 'Reports\LogisticsReportController@item');
     Route::post('reports/logistics/update', 'Reports\LogisticsReportController@update');
     Route::post('reports/logistics/save_logistic', 'Reports\LogisticsReportController@saveLogistics');
+
+    Route::get('reports/partner_tour', 'Reports\PartnerTourReportController@content');
+    Route::get('reports/partner_tour/item', 'Reports\PartnerTourReportController@item');
+    Route::post('reports/partner_tour', 'Reports\PartnerTourReportController@item');
     
     CRUD::resource('hotel', 'Admin\HotelCrudController');
     Route::get('entity/ajax-client-options', 'Admin\EntityCrudController@clientOptions');

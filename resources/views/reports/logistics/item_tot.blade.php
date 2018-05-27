@@ -5,13 +5,13 @@
     <th class="text-right">{{ $adults }}</th>
     <th class="text-right">{{ $childs }}</th>
     <th class="text-right">{{ $childs + $adults }}</th>
-    <th colspan="8"></th>
+    <th colspan="9"></th>
 
 </tr>
 
 <tr>
 
-    <td colspan="15">
+    <td colspan="16">
 
         @if (Auth::user()->profile == App\Models\User::USER_PROFILE__ADMIN)
             <form class="col-md-12">

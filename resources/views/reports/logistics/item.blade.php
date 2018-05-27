@@ -38,6 +38,7 @@
                         <th>{{ trans('app.hotel') }}</th>
                         <th>{{ trans('app.room') }}</th>
 
+                        <th>Valor</th>
                         <th>{{ trans('app.pay') }}</th>
                         <th>{{ trans('app.rest') }}</th>
                         <th>{{ trans('app.payment') }}</th>
@@ -69,7 +70,7 @@
 
                             <td>{{ $e->hotel_name . ' (' . $e->hotel_address . ')' }}</td>
                             <td>{{ $e->room_number }}</td>
-
+                            <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_total, 0, ',', '.') }}</td>
                             <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_pay, 0, ',', '.') }}</td>
                             <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_rest, 0, ',', '.') }}</td>
                             <td>{{ $e->payment_description }}</td>
