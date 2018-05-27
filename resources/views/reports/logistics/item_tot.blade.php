@@ -33,7 +33,7 @@
                 <div class="form-group col-md-2">
                     <label> </label>
                     <div class="input-group">
-                        <a href="#" class="btn btn-default" name="btnSaveLogistics"><i class="fa fa-save"></i> Salvar</a>
+                        <a href="#" class="btn btn-primary" name="btnSaveLogistics"><i class="fa fa-save"></i> Salvar</a>
                     </div>
                 </div>
             </form>

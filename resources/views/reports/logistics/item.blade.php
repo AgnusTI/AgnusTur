@@ -19,7 +19,7 @@
             $qtd = 0;
         @endphp
 
-        <div class="box box-success box-solid">
+        <div class="box box-primary box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title"><b>{{ $e->item_name }}</b></h3>
             </div>
