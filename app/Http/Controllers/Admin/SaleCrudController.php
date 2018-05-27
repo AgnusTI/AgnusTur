@@ -214,18 +214,18 @@ class SaleCrudController extends CrudController
                     'size' => '1',
                     'attributes' => ['convert-to-integer' => '']
                 ],
-                ['label' => trans('app.percent_commission'),
-                    'type' => 'child_float_number',
-                    'name' => 'vl_percent_commission',
-                    //'suffix' => "%",
-                    'size' => '1',
-                    'attributes' => ['convert-to-float' => '']
-                ],
                 ['label' => trans('app.commission'),
                     'type' => 'child_integer_number',
                     'name' => 'vl_commission',
                     'size' => '1',
                     'attributes' => ['convert-to-integer' => '']
+                ],
+                ['label' => trans('app.percent_commission'),
+                    'type' => 'child_float_number',
+                    'name' => 'vl_percent_commission',
+                    //'suffix' => "%",
+                    'size' => '1',
+                    'attributes' => ['convert-to-float' => '', 'tabindex' => '-1']
                 ],
                 ['label' => trans('app.partner'),
                     'type' => 'child_select',

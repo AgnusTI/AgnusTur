@@ -32,4 +32,52 @@ class SaleItem extends Model
             $this->attributes['dt_tour'] = $value;
         }
     }
+
+    public function getAdultsAttribute() {
+        if (!isset($this->attributes['adults'])) {
+            return 0;
+        } else {
+            return $this->attributes['adults'];
+        }
+    }
+
+    public function getChildsAttribute() {
+        if (!isset($this->attributes['childs'])) {
+            return 0;
+        } else {
+            return $this->attributes['childs'];
+        }
+    }
+
+    public function getVlDiscountAttribute() {
+        if (!isset($this->attributes['vl_discount'])) {
+            return 0;
+        } else {
+            return $this->attributes['vl_discount'];
+        }
+    }
+
+    public function getVlExpenseAttribute() {
+        if (!isset($this->attributes['vl_expense'])) {
+            return 0.00;
+        } else {
+            return $this->attributes['vl_expense'];
+        }
+    }
+
+    public function getVlCommissionAttribute() {
+        if (!isset($this->attributes['vl_commission'])) {
+            return 0.00;
+        } else {
+            return $this->attributes['vl_commission'];
+        }
+    }
+
+    public function getVlPartnerAttribute() {
+        if (!isset($this->attributes['vl_partner'])) {
+            return 0.00;
+        } else {
+            return $this->attributes['vl_partner'];
+        }
+    }
 }

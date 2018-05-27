@@ -52,6 +52,19 @@
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/sale') }}"><i class="fa fa-image"></i> <span>{{ trans('app.sale') }}</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/client') }}"><i class="fa fa-user"></i> <span>{{ trans('app.client') }}</span></a></li>
                     <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/hotel') }}"><i class="fa fa-building"></i> <span>{{ trans('app.hotels') }}</span></a></li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-bar-chart"></i>
+                            <span>{{ trans('app.reports') }}</span>
+                            <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ url(config('backpack.base.route_prefix', 'admin') . '/reports/logistics') }}"><i class="fa fa-circle-o"></i> <span>{{ trans('app.logistics') }}</span></a></li>
+                        </ul>
+                    </li>
                 @endif
 
             </ul>

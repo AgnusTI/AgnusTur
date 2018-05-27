@@ -240,6 +240,17 @@
         updateTotal();
     }
 
+    function calculatePercentByCommission(tr) {
+        var vl_total = parseInt(tr.find("input[ng-model='item.vl_total']").val().replace(".", "")) || 0;
+        var vl_expense = parseInt(tr.find("input[ng-model='item.vl_expense']").val().replace(".", "")) || 0;
+        var vl_commission = parseFloat(tr.find("input[ng-model='item.vl_commission']").val().replace(".", "").replace(",", ".")) || 0;
+        var vl_percent_commission = parseFloat(vl_commission * 100 / (vl_total - vl_expense)) || 0;
+
+        changeFloatValue(tr, 'vl_percent_commission', vl_percent_commission);
+
+        updateTotal();
+    }
+
     function updatePartnerItem(tr) {
         var item = tr.find(".child_select2_field[ng-model='item.partner_id']");
 
@@ -324,8 +335,22 @@
                                 if ($(obj).val() === "undefined") {
                                     $(obj).val("0");
                                 }
+
                                 $(obj).focusout(function() {
                                     calculateCommissionByPercent($(this).closest('tr'));
+                                });
+                                if (!$(obj).data("configured")) {
+                                    $(obj).data("configured", true);
+                                }
+                            }
+                        });
+                        $("input[ng-model='item.vl_commission']").each(function (i, obj) {
+                            if (!$(obj).data("configured")) {
+                                if ($(obj).val() === "undefined") {
+                                    $(obj).val("0");
+                                }
+                                $(obj).focusout(function() {
+                                    calculatePercentByCommission($(this).closest('tr'));
                                 });
                                 if (!$(obj).data("configured")) {
                                     $(obj).data("configured", true);

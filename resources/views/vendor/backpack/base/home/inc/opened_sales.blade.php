@@ -30,7 +30,7 @@
             <td>{{ $e->name }}</td>
             <td class="text-right"><div style="float:left;">$</div>{{ number_format($e->vl_total, 0, ',', '.') }}</td>
             <td>{{ $e->user_name }}</td>
-            <td><a href="/admin/sale/{{ $e->sale_id }}/edit" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-edit"></i>{{ trans('backpack::crud.edit')  }}</a></td>
+            <td><a href="/public/admin/sale/{{ $e->sale_id }}/edit" class="btn btn-primary btn-xs" target="_blank"><i class="fa fa-edit"></i>{{ trans('backpack::crud.edit')  }}</a></td>
         </tr>
         @php
             $qtd += 1;

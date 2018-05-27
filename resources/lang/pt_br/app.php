@@ -121,4 +121,5 @@ return [
     'registers' => 'Cadastros',
     'reports' => 'Relatórios',
     'open' => 'Abrir',
+    'refresh' => 'Atualizar',
 ];
