@@ -77,7 +77,7 @@ class SaleCrudController extends CrudController
             [
                 'name' => 'hotel_id',
                 'label' => trans('app.hotel'),
-                'type' => 'select2_from_ajax',
+                'type' => 'select2_from_ajax_custom',
                 'entity' => 'hotel',
                 'attribute' => 'description',
                 'model' => 'App\Models\Hotel',
@@ -85,6 +85,7 @@ class SaleCrudController extends CrudController
                 'placeholder' => trans('app.hotel_placeholder'),
                 'minimum_input_length' => 2,
                 'wrapperAttributes' => ['class' => 'form-group col-md-5'],
+                'manager_url' => url('/admin/hotel/create'),
             ],
             [
                 'name' => 'address',

@@ -23,7 +23,7 @@ class PartnerCrudController extends EntityCrudController
 
         $this->crud->removeFields(['type', 'hotel_id', 'room_number', 'out_point'], 'both');
         $this->crud->removeColumns(['type_comma', 'hotel_id']);
-
+    
         $this->crud->addField([
             'name' => 'vl_percent_partner',
             'label' => trans('app.percent_partner'),
